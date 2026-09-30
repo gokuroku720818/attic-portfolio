@@ -244,7 +244,7 @@ export const ManagePortfolioModal: React.FC<ManagePortfolioModalProps> = ({ onCl
               <form onSubmit={handleLoginSubmit} className="space-y-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                    4자리 비밀번호 {isHost ? '(호스트 명왕 PIN: 7581)' : ''}
+                    4자리 비밀번호
                   </label>
                   <div className="relative">
                     <input
