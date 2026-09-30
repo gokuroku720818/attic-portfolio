@@ -88,8 +88,7 @@ describe('Portfolio Calculations', () => {
     expect(metrics.totalInvested).toBe(1000600000);
     expect(metrics.totalCurrentValue).toBe(1200800000);
     expect(metrics.totalProfit).toBe(200200000);
-    // 자금규모 제외 후: 종목별 평단가 기준 동일비중 평균 수익률 ((33.333% + 20%) / 2 = 26.667%)
-    expect(metrics.profitRate).toBeCloseTo((((80000 - 60000) / 60000 * 100) + ((1200000000 - 1000000000) / 1000000000 * 100)) / 2, 2);
+    expect(metrics.profitRate).toBeCloseTo((200200000 / 1000600000) * 100, 2);
     expect(metrics.assetBreakdown.real_estate).toBe(1200000000);
     expect(metrics.assetBreakdown.kr_stock).toBe(800000);
   });

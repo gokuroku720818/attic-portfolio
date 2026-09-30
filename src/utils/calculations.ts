@@ -52,15 +52,8 @@ export function calculateMemberMetrics(member: Member, assets: Asset[]): MemberM
     }
   }
 
-  const validAssets = memberAssets.filter((a) => a.buyPrice > 0);
   const totalProfit = totalCurrentValue - totalInvested;
-  const profitRate =
-    validAssets.length > 0
-      ? validAssets.reduce((sum, a) => {
-          const itemRate = ((a.currentPrice - a.buyPrice) / a.buyPrice) * 100;
-          return sum + itemRate;
-        }, 0) / validAssets.length
-      : 0;
+  const profitRate = totalInvested > 0 ? (totalProfit / totalInvested) * 100 : 0;
 
   return {
     totalInvested,

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useAtticStore } from '../context/AtticContext';
-import { formatPercent } from '../utils/calculations';
+import { formatCurrency, formatPercent } from '../utils/calculations';
 import { TrendingUp, TrendingDown, DollarSign, Award, ShieldAlert } from 'lucide-react';
 
 export const AtticStatsTicker: React.FC = () => {
-  const { rankedMembers, assets } = useAtticStore();
+  const { rankedMembers, assets, activeMember } = useAtticStore();
+  const isHost = activeMember?.name === '명왕';
 
+  const totalAssets = rankedMembers.reduce((sum, r) => sum + r.metrics.totalCurrentValue, 0);
   const totalHoldingsCount = assets.length;
   const activeMembersWithHoldings = rankedMembers.filter((r) => r.metrics.profitRate !== 0);
   const averageProfitRate =
@@ -20,15 +22,18 @@ export const AtticStatsTicker: React.FC = () => {
   return (
     <div className="bg-slate-900/60 border-y border-slate-800/80 px-4 py-3 sm:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        {/* 1. 다락방 등록 종목 (자금규모 제거) */}
+        {/* 1. 다락방 총 자산(호스트 전용) 또는 등록 종목 */}
         <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-3 flex items-center gap-3">
           <div className="p-2.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20">
             <DollarSign className="w-5 h-5" />
           </div>
           <div>
-            <div className="text-[11px] text-slate-400 font-medium">등록된 투자 종목</div>
+            <div className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+              {isHost && <span className="text-[10px] text-amber-400">👑</span>}
+              <span>{isHost ? '다락방 총 자산 규모' : '등록된 투자 종목'}</span>
+            </div>
             <div className="text-sm sm:text-base font-black text-slate-100">
-              총 {totalHoldingsCount}개 종목
+              {isHost ? formatCurrency(totalAssets) : `총 ${totalHoldingsCount}개 종목`}
             </div>
           </div>
         </div>

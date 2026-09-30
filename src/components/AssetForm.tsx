@@ -21,7 +21,7 @@ export const AssetForm: React.FC<AssetFormProps> = ({
   const [name, setName] = useState(initialAsset?.name || '');
   const [symbol, setSymbol] = useState(initialAsset?.symbol || '');
   const [buyPrice, setBuyPrice] = useState<number>(initialAsset?.buyPrice || 0);
-  const quantity = 1; // 자금규모(수량)는 받지 않고 종목과 평단만 관리
+  const [quantity, setQuantity] = useState<number>(initialAsset?.quantity || 1);
   const [currentPrice, setCurrentPrice] = useState<number>(
     initialAsset?.currentPrice || initialAsset?.buyPrice || 0
   );
@@ -217,8 +217,8 @@ export const AssetForm: React.FC<AssetFormProps> = ({
         </div>
       )}
 
-      {/* 매수 평단가 및 현재 시세 (수량/자금규모 입력 제거) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* 매수 평단가, 보유 수량, 현재 시세 */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div>
           <label className="block text-xs font-bold text-slate-300 mb-1">
             {type === 'real_estate' ? '매수가 / 취득 평단가 (원)' : '내 매수 평단가 (원)'}
@@ -235,6 +235,22 @@ export const AssetForm: React.FC<AssetFormProps> = ({
           <span className="text-[10px] text-slate-400 mt-0.5 block">
             {formatCurrency(buyPrice)}
           </span>
+        </div>
+
+        <div>
+          <label className="block text-xs font-bold text-slate-300 mb-1">
+            {type === 'real_estate' ? '보유 수량 / 지분' : '보유 수량 (주/개)'}
+          </label>
+          <input
+            type="number"
+            step="any"
+            value={quantity || ''}
+            onChange={(e) => setQuantity(Number(e.target.value))}
+            placeholder="1"
+            min={0}
+            required
+            className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400 font-mono"
+          />
         </div>
 
         <div>
@@ -270,27 +286,20 @@ export const AssetForm: React.FC<AssetFormProps> = ({
         />
       </div>
 
-      {/* 실시간 수익률 미리보기 바 (자금규모/금액 제거) */}
+      {/* 실시간 미리보기 바 (원금, 평가액, 예상 손익) */}
       <div className="bg-slate-900/90 rounded-xl p-3 border border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs">
-        <div className="text-slate-400 flex items-center gap-1.5">
-          <span>평단:</span>
-          <span className="font-bold text-slate-200">{formatCurrency(buyPrice)}</span>
-          <span className="text-slate-600">→</span>
-          <span>현재가:</span>
-          <span className="font-bold text-slate-200">{formatCurrency(currentPrice)}</span>
+        <div className="text-slate-400">
+          원금 <span className="font-bold text-slate-200">{formatCurrency(preview.investedAmount)}</span> →
+          평가 <span className="font-bold text-slate-200">{formatCurrency(preview.currentValue)}</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="text-slate-400">예상 수익률:</span>
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400">예상 손익:</span>
           <span
-            className={`font-black text-sm ${
-              preview.profitRate > 0
-                ? 'text-rose-400'
-                : preview.profitRate < 0
-                ? 'text-blue-400'
-                : 'text-slate-300'
+            className={`font-black ${
+              preview.profitRate >= 0 ? 'text-rose-400' : 'text-blue-400'
             }`}
           >
-            {formatPercent(preview.profitRate)}
+            {formatPercent(preview.profitRate)} ({formatCurrency(preview.profit)})
           </span>
         </div>
       </div>

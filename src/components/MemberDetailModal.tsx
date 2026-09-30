@@ -1,8 +1,9 @@
 import React from 'react';
 import { RankedMember, Asset } from '../types';
 import { calculateAssetMetrics, formatCurrency, formatPercent } from '../utils/calculations';
+import { useAtticStore } from '../context/AtticContext';
 import { PortfolioPieChart } from './PortfolioPieChart';
-import { X } from 'lucide-react';
+import { X, Lock } from 'lucide-react';
 
 interface MemberDetailModalProps {
   rankedMember: RankedMember;
@@ -15,8 +16,13 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   assets,
   onClose,
 }) => {
+  const { activeMember } = useAtticStore();
   const { member, metrics, rank, badges } = rankedMember;
   const isPositive = metrics.profitRate >= 0;
+
+  const isHost = activeMember?.name === '명왕';
+  const isSelf = activeMember?.id === member.id;
+  const canViewCapital = isHost || isSelf;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in overflow-y-auto">
@@ -66,24 +72,61 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           </div>
         </div>
 
-        {/* 핵심 메트릭 요약 그리드 (자금규모 제거) */}
-        <div className="grid grid-cols-3 gap-2.5 my-6">
+        {/* 호스트 전용 안내 띠 (호스트가 타인의 상세를 볼 때) */}
+        {isHost && !isSelf && (
+          <div className="mt-4 px-3.5 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
+            <span className="text-sm">👑</span>
+            <span>호스트(명왕) 권한으로 개인 투자금액 및 상세 수량을 열람 중입니다.</span>
+          </div>
+        )}
+
+        {/* 핵심 메트릭 요약 그리드 */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-6">
           <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">등록 종목</div>
+            <div className="text-[11px] text-slate-400 font-medium">총 평가 자산</div>
             <div className="text-sm sm:text-base font-black text-slate-100 mt-0.5">
-              {assets.length}개
+              {canViewCapital ? (
+                formatCurrency(metrics.totalCurrentValue)
+              ) : (
+                <span className="text-xs text-slate-500 font-semibold flex items-center justify-center gap-1">
+                  <Lock className="w-3 h-3" /> 비공개
+                </span>
+              )}
             </div>
           </div>
 
           <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">리그 순위</div>
-            <div className="text-sm sm:text-base font-black text-amber-300 mt-0.5">
-              {rank}위
+            <div className="text-[11px] text-slate-400 font-medium">총 투자 원금</div>
+            <div className="text-sm sm:text-base font-black text-slate-300 mt-0.5">
+              {canViewCapital ? (
+                formatCurrency(metrics.totalInvested)
+              ) : (
+                <span className="text-xs text-slate-500 font-semibold flex items-center justify-center gap-1">
+                  <Lock className="w-3 h-3" /> 비공개
+                </span>
+              )}
             </div>
           </div>
 
           <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">평균 수익률</div>
+            <div className="text-[11px] text-slate-400 font-medium">평가 손익</div>
+            <div
+              className={`text-sm sm:text-base font-black mt-0.5 ${
+                isPositive ? 'text-rose-400' : 'text-blue-400'
+              }`}
+            >
+              {canViewCapital ? (
+                formatCurrency(metrics.totalProfit)
+              ) : (
+                <span className="text-xs text-slate-500 font-semibold flex items-center justify-center gap-1">
+                  <Lock className="w-3 h-3" /> 비공개
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
+            <div className="text-[11px] text-slate-400 font-medium">총 수익률</div>
             <div
               className={`text-sm sm:text-base font-black mt-0.5 ${
                 isPositive ? 'text-rose-400' : 'text-blue-400'
@@ -148,6 +191,11 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                       </div>
                       <div className="text-xs text-slate-400 mt-0.5">
                         매수 평단 {formatCurrency(asset.buyPrice)}
+                        {canViewCapital && (
+                          <span className="text-slate-300 font-semibold ml-1.5">
+                            • {asset.quantity}주/개
+                          </span>
+                        )}
                         {asset.memo && (
                           <span className="text-amber-400/80 ml-1.5 italic">
                             "{asset.memo}"
@@ -157,12 +205,16 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                     </div>
                   </div>
 
-                  {/* 현재 시세 및 수익률 (자금규모 제거) */}
+                  {/* 시세/평가액(권한별) 및 수익률 */}
                   <div className="flex items-center justify-between sm:justify-end gap-5 text-right border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-700/40">
                     <div>
-                      <div className="text-[11px] text-slate-400">현재 시세</div>
+                      <div className="text-[11px] text-slate-400">
+                        {canViewCapital ? '현재 평가액' : '현재 시세'}
+                      </div>
                       <div className="text-xs sm:text-sm font-bold text-slate-200">
-                        {formatCurrency(asset.currentPrice)}
+                        {canViewCapital
+                          ? formatCurrency(itemMetrics.currentValue)
+                          : formatCurrency(asset.currentPrice)}
                       </div>
                     </div>
 

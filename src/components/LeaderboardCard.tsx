@@ -1,6 +1,7 @@
 import React from 'react';
 import { RankedMember, Asset } from '../types';
-import { formatPercent } from '../utils/calculations';
+import { formatCurrency, formatPercent } from '../utils/calculations';
+import { useAtticStore } from '../context/AtticContext';
 import { ChevronRight } from 'lucide-react';
 
 interface LeaderboardCardProps {
@@ -14,8 +15,13 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
   memberAssets,
   onSelect,
 }) => {
+  const { activeMember } = useAtticStore();
   const { member, metrics, rank, badges } = rankedMember;
   const isPositive = metrics.profitRate >= 0;
+
+  const isHost = activeMember?.name === '명왕';
+  const isSelf = activeMember?.id === member.id;
+  const canViewCapital = isHost || isSelf;
 
   // 카드 스타일링 (순위별)
   let cardBorder = 'border-slate-800 hover:border-slate-700 bg-slate-900/60';
@@ -99,12 +105,21 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
         </div>
       </div>
 
-      {/* 우측: 등록 종목 수 및 수익률 (자금규모 제거) */}
+      {/* 우측: 평가 자산(호스트/본인 전용) 및 수익률 */}
       <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto pt-2 md:pt-0 border-t md:border-t-0 border-slate-800/60">
         <div className="text-left md:text-right">
-          <div className="text-[11px] text-slate-400 font-medium">등록 종목</div>
+          <div className="text-[11px] text-slate-400 font-medium flex items-center justify-start md:justify-end gap-1">
+            {canViewCapital ? (
+              <>
+                {isHost && !isSelf && <span className="text-[10px] text-amber-400">👑</span>}
+                <span>총 평가 자산</span>
+              </>
+            ) : (
+              <span>등록 종목</span>
+            )}
+          </div>
           <div className="text-base sm:text-lg font-black text-slate-100">
-            {memberAssets.length}개
+            {canViewCapital ? formatCurrency(metrics.totalCurrentValue) : `${memberAssets.length}개`}
           </div>
         </div>
 
