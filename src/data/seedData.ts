@@ -4,7 +4,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm1',
     name: '당근탕(뚱땡이)',
-    pin: '1234',
+    pin: '', // 본인이 최초 접속 시 4자리 비밀번호 직접 설정
     avatar: '🐉',
     bio: '발화량 1위 안방마님, 러닝, 피시방 원탁 개설자',
     role: '💡 현자 · 🐉 임진(용)',
@@ -13,7 +13,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm2',
     name: '사약',
-    pin: '1234',
+    pin: '',
     avatar: '🐷',
     bio: "'칼날사약', 오토약국장, 스타 1타 강사, 톡방 개그캐",
     role: '🎭 광대 · 🐷 기해(돼지)',
@@ -22,16 +22,16 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm3',
     name: '명왕',
-    pin: '1234',
+    pin: '7581', // 호스트 고유 비밀번호 7581
     avatar: '🐔',
-    bio: '불굴의 저그 투지, 당근탕·쿨핑과 80점 천생연분',
-    role: '🎭 광대 · 🐔 을유(닭)',
+    bio: '다락방 총괄 호스트, 불굴의 저그 투지, 당근탕·쿨핑과 80점 천생연분',
+    role: '👑 호스트 · 🎭 광대 · 🐔 을유(닭)',
     updatedAt: new Date().toISOString(),
   },
   {
     id: 'm4',
     name: '포모뇌신',
-    pin: '1234',
+    pin: '',
     avatar: '⚡',
     bio: '약속의 5시 반, 약국 전용 컴터, 프로토스 유즈맵',
     role: '다락방 멤버',
@@ -40,7 +40,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm5',
     name: '빈돈미새',
-    pin: '1234',
+    pin: '',
     avatar: '🔨',
     bio: '자산 50억 목표, 약국 순익과 효율의 냉철한 혁명가',
     role: '🔨 혁명가',
@@ -49,7 +49,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm6',
     name: '오레와고르',
-    pin: '1234',
+    pin: '',
     avatar: '🐶',
     bio: '팔란티어(PLTR) 진심파, 졸려와 77점 힐링 메이트',
     role: '🐶 갑술(개)',
@@ -58,7 +58,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm7',
     name: '철약',
-    pin: '1234',
+    pin: '',
     avatar: '🐉',
     bio: '당근탕과 영혼의 쌍둥이 현자, 거시경제 분석 참모',
     role: '💡 현자 · 🐉 갑진(용)',
@@ -67,7 +67,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm8',
     name: '제네시스',
-    pin: '1234',
+    pin: '',
     avatar: '🐂',
     bio: 'BMW 530i 차주, 하남자와 82점 전체 1위 궁합 🏆',
     role: '⚔️ 워리어 · 🐂 기축(소)',
@@ -76,7 +76,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm9',
     name: '김팬지',
-    pin: '1234',
+    pin: '',
     avatar: '🐍',
     bio: '자칭 보스, 청담읍네오와 77점 찰떡 콤비(사신합)',
     role: '🎭 광대 · 🐍 을사(뱀)',
@@ -85,7 +85,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm10',
     name: '하남자',
-    pin: '1234',
+    pin: '',
     avatar: '🐭',
     bio: '530i와 82점 찰떡 궁합 1위, 인천 청년의 유쾌한 한탄',
     role: '🐭 갑자(쥐)',
@@ -94,7 +94,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm11',
     name: '아졸려',
-    pin: '1234',
+    pin: '',
     avatar: '🐰',
     bio: '9년 연애 결혼, 고르와 77점 천생 힐링 메이트',
     role: '🐰 계묘(토끼)',
@@ -103,7 +103,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm12',
     name: '탈출도담',
-    pin: '1234',
+    pin: '',
     avatar: '☀️',
     bio: '"순한데 화나면 제일 무서움", 주식 야수의 심장',
     role: '☀️ 이노센트 · 🐰 을묘(토끼)',
@@ -112,7 +112,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm13',
     name: '청담읍네오',
-    pin: '1234',
+    pin: '',
     avatar: '🐒',
     bio: '안과병원 앞 약국장(바쁠 때 일 200건!), 텐션 폭발 에너자이저',
     role: '⚔️ 워리어 · 🐒 병신(원숭이)',
@@ -121,7 +121,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm14',
     name: '진쿨보',
-    pin: '1234',
+    pin: '',
     avatar: '🐉',
     bio: '명왕과 80점 천생연분, 2자녀(중딩 딸·초딩 아들) 당찬 돌싱 누님 약사',
     role: '☀️ 이노센트 · 🐉 임진(용)',
@@ -130,7 +130,7 @@ export const INITIAL_MEMBERS: Member[] = [
   {
     id: 'm15',
     name: '퉁어게인',
-    pin: '1234',
+    pin: '',
     avatar: '🎯',
     bio: '다락방 신규 멤버, 성투를 향해 출발!',
     role: '다락방 멤버',
@@ -138,21 +138,33 @@ export const INITIAL_MEMBERS: Member[] = [
   },
 ];
 
-// 포트폴리오는 요청대로 0원으로 초기화 (각자 본인 자산 입력 대기 상태)
+export const HOST_MEMBER_NAME = '명왕';
+export const HOST_PIN = '7581';
+
+// 포트폴리오는 0원 초기화 상태 유지
 export const INITIAL_ASSETS: Asset[] = [];
 
 export const INITIAL_SHOUTOUTS: Shoutout[] = [
   {
     id: 's1',
-    memberId: 'm1',
-    memberName: '당근탕(뚱땡이)',
-    avatar: '🐉',
-    message: '다락방 포트폴리오 개설! 피시방 원탁 회의에서 수익률 검증합니다 🏃',
-    createdAt: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
-    reactionCount: 15,
+    memberId: 'm3',
+    memberName: '명왕',
+    avatar: '🐔',
+    message: '다락방 포트폴리오 정식 오픈! 각자 계좌 등록하고 승부합시다 👑',
+    createdAt: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    reactionCount: 20,
   },
   {
     id: 's2',
+    memberId: 'm1',
+    memberName: '당근탕(뚱땡이)',
+    avatar: '🐉',
+    message: '피시방 원탁 회의에서 실시간 랭킹 확인합니다 🏃',
+    createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+    reactionCount: 15,
+  },
+  {
+    id: 's3',
     memberId: 'm2',
     memberName: '사약',
     avatar: '🐷',
@@ -161,7 +173,7 @@ export const INITIAL_SHOUTOUTS: Shoutout[] = [
     reactionCount: 9,
   },
   {
-    id: 's3',
+    id: 's4',
     memberId: 'm6',
     memberName: '오레와고르',
     avatar: '🐶',
@@ -170,7 +182,7 @@ export const INITIAL_SHOUTOUTS: Shoutout[] = [
     reactionCount: 12,
   },
   {
-    id: 's4',
+    id: 's5',
     memberId: 'm8',
     memberName: '제네시스',
     avatar: '🐂',
@@ -179,7 +191,7 @@ export const INITIAL_SHOUTOUTS: Shoutout[] = [
     reactionCount: 8,
   },
   {
-    id: 's5',
+    id: 's6',
     memberId: 'm5',
     memberName: '빈돈미새',
     avatar: '🔨',

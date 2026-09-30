@@ -1,10 +1,10 @@
 import { Asset, Member, Shoutout } from '../types';
-import { INITIAL_MEMBERS, INITIAL_ASSETS, INITIAL_SHOUTOUTS } from '../data/seedData';
+import { INITIAL_MEMBERS, INITIAL_ASSETS, INITIAL_SHOUTOUTS, HOST_PIN, HOST_MEMBER_NAME } from '../data/seedData';
 
 const STORAGE_KEYS = {
-  MEMBERS: 'attic_members_v2',
-  ASSETS: 'attic_assets_v2',
-  SHOUTOUTS: 'attic_shoutouts_v2',
+  MEMBERS: 'attic_members_v3',
+  ASSETS: 'attic_assets_v3',
+  SHOUTOUTS: 'attic_shoutouts_v3',
 };
 
 export interface AtticData {
@@ -14,7 +14,7 @@ export interface AtticData {
 }
 
 /**
- * 저장소에서 데이터를 로드합니다. 데이터가 없으면 14인 시드 데이터로 자동 초기화합니다.
+ * 저장소에서 데이터를 로드합니다. 데이터가 없으면 시드 데이터로 자동 초기화합니다.
  */
 export function loadAtticData(): AtticData {
   try {
@@ -26,13 +26,12 @@ export function loadAtticData(): AtticData {
     let assets: Asset[] = rawAssets ? JSON.parse(rawAssets) : [];
     let shoutouts: Shoutout[] = rawShoutouts ? JSON.parse(rawShoutouts) : [];
 
-    // 비어 있는 경우 시드 데이터로 자동 세팅
     if (members.length === 0) {
       members = [...INITIAL_MEMBERS];
       localStorage.setItem(STORAGE_KEYS.MEMBERS, JSON.stringify(members));
     }
 
-    if (assets.length === 0) {
+    if (!rawAssets) {
       assets = [...INITIAL_ASSETS];
       localStorage.setItem(STORAGE_KEYS.ASSETS, JSON.stringify(assets));
     }
@@ -51,6 +50,70 @@ export function loadAtticData(): AtticData {
       shoutouts: [...INITIAL_SHOUTOUTS],
     };
   }
+}
+
+/**
+ * 멤버의 비밀번호 설정 여부 확인
+ */
+export function isMemberPinSet(memberId: string): boolean {
+  const data = loadAtticData();
+  const member = data.members.find((m) => m.id === memberId);
+  return Boolean(member && member.pin && member.pin.trim().length === 4);
+}
+
+/**
+ * 멤버 비밀번호 최초 설정 및 변경
+ */
+export function setMemberPin(memberId: string, newPin: string): boolean {
+  if (!/^\d{4}$/.test(newPin)) return false;
+
+  const data = loadAtticData();
+  const member = data.members.find((m) => m.id === memberId);
+  if (!member) return false;
+
+  member.pin = newPin;
+  member.updatedAt = new Date().toISOString();
+  localStorage.setItem(STORAGE_KEYS.MEMBERS, JSON.stringify(data.members));
+  return true;
+}
+
+/**
+ * 4자리 PIN 검증
+ */
+export function verifyMemberPin(memberId: string, inputPin: string): boolean {
+  const data = loadAtticData();
+  const member = data.members.find((m) => m.id === memberId);
+  if (!member) return false;
+
+  // 호스트 명왕의 경우 기본 7581
+  if (member.name === HOST_MEMBER_NAME) {
+    return member.pin === inputPin || inputPin === HOST_PIN;
+  }
+
+  // 비밀번호가 설정되어 있지 않은 경우
+  if (!member.pin) {
+    return false;
+  }
+
+  return member.pin === inputPin;
+}
+
+/**
+ * 호스트(명왕) 전용 데이터 초기화
+ */
+export function resetDataByHost(hostPin: string): { success: boolean; message: string } {
+  if (hostPin.trim() !== HOST_PIN) {
+    return {
+      success: false,
+      message: '호스트 비밀번호가 올바르지 않습니다! (오직 명왕만 초기화 가능)',
+    };
+  }
+
+  resetToSeedData();
+  return {
+    success: true,
+    message: '호스트 권한으로 모든 데이터가 깨끗하게 초기화되었습니다!',
+  };
 }
 
 /**
@@ -97,16 +160,6 @@ export function likeShoutout(shoutoutId: string): void {
     target.reactionCount += 1;
     localStorage.setItem(STORAGE_KEYS.SHOUTOUTS, JSON.stringify(data.shoutouts));
   }
-}
-
-/**
- * 4자리 간이 PIN 검증 (Review Focus 3)
- */
-export function verifyMemberPin(memberId: string, inputPin: string): boolean {
-  const data = loadAtticData();
-  const member = data.members.find((m) => m.id === memberId);
-  if (!member) return false;
-  return member.pin === inputPin;
 }
 
 /**

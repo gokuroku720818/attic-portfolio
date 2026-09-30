@@ -7,7 +7,9 @@ import {
   saveShoutout,
   likeShoutout,
   verifyMemberPin,
-  resetToSeedData,
+  isMemberPinSet,
+  setMemberPin,
+  resetDataByHost as storageResetByHost,
 } from '../services/storage';
 import { calculateRankings } from '../utils/ranking';
 import { refreshAssetPrices } from '../services/priceEngine';
@@ -21,12 +23,14 @@ interface AtticContextType {
   isRefreshing: boolean;
   loginMember: (memberId: string, pin: string) => boolean;
   logout: () => void;
+  checkIsPinSet: (memberId: string) => boolean;
+  setupNewPin: (memberId: string, newPin: string) => boolean;
   addOrUpdateAsset: (asset: Asset) => void;
   deleteAsset: (assetId: string) => void;
   postShoutout: (memberId: string, message: string) => void;
   reactToShoutout: (shoutoutId: string) => void;
   refreshPrices: () => Promise<void>;
-  resetData: () => void;
+  resetDataByHost: (hostPin: string) => { success: boolean; message: string };
 }
 
 const AtticContext = createContext<AtticContextType | undefined>(undefined);
@@ -48,7 +52,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const updatedAssets = await refreshAssetPrices(data.assets);
       setData((prev) => {
         const next = { ...prev, assets: updatedAssets };
-        localStorage.setItem('attic_assets_v1', JSON.stringify(updatedAssets));
+        localStorage.setItem('attic_assets_v3', JSON.stringify(updatedAssets));
         return next;
       });
     } catch (error) {
@@ -58,16 +62,35 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [data.assets]);
 
-  // 4자리 PIN 로그인
-  const loginMember = useCallback((memberId: string, pin: string): boolean => {
-    const isValid = verifyMemberPin(memberId, pin);
-    if (isValid) {
-      const member = data.members.find((m) => m.id === memberId) || null;
+  // 비밀번호 설정 여부 확인
+  const checkIsPinSet = useCallback((memberId: string) => {
+    return isMemberPinSet(memberId);
+  }, []);
+
+  // 초기 비밀번호 설정
+  const setupNewPin = useCallback((memberId: string, newPin: string): boolean => {
+    const success = setMemberPin(memberId, newPin);
+    if (success) {
+      const fresh = loadAtticData();
+      setData(fresh);
+      const member = fresh.members.find((m) => m.id === memberId) || null;
       setActiveMember(member);
       return true;
     }
     return false;
-  }, [data.members]);
+  }, []);
+
+  // 4자리 PIN 로그인
+  const loginMember = useCallback((memberId: string, pin: string): boolean => {
+    const isValid = verifyMemberPin(memberId, pin);
+    if (isValid) {
+      const fresh = loadAtticData();
+      const member = fresh.members.find((m) => m.id === memberId) || null;
+      setActiveMember(member);
+      return true;
+    }
+    return false;
+  }, []);
 
   const logout = useCallback(() => {
     setActiveMember(null);
@@ -110,11 +133,14 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setData(loadAtticData());
   }, []);
 
-  // 초기화
-  const resetData = useCallback(() => {
-    const fresh = resetToSeedData();
-    setData(fresh);
-    setActiveMember(null);
+  // 호스트(명왕) 전용 초기화
+  const resetDataByHost = useCallback((hostPin: string) => {
+    const res = storageResetByHost(hostPin);
+    if (res.success) {
+      setData(loadAtticData());
+      setActiveMember(null);
+    }
+    return res;
   }, []);
 
   return (
@@ -128,12 +154,14 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         isRefreshing,
         loginMember,
         logout,
+        checkIsPinSet,
+        setupNewPin,
         addOrUpdateAsset,
         deleteAsset,
         postShoutout,
         reactToShoutout,
         refreshPrices,
-        resetData,
+        resetDataByHost,
       }}
     >
       {children}
