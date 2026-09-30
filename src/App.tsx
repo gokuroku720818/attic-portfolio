@@ -1,4 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
+import { AchievementProvider } from './context/AchievementContext';
+const AchievementHall = lazy(() => import('./components/Achievements').then(module => ({ default: module.AchievementHall })));
 import { AtticProvider, useAtticStore } from './context/AtticContext';
 const AtticBriefing = lazy(() => import('./components/AtticBriefing').then(module => ({ default: module.AtticBriefing })));
 import { Header } from './components/Header';
@@ -32,6 +34,8 @@ function AtticAppContent() {
       {/* 4. 메인 컨텐츠 영역 */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-4 space-y-5">
         <Suspense fallback={<p className="text-sm text-slate-400">다락방 브리핑을 불러오고 있습니다…</p>}><AtticBriefing onSelectMember={setSelectedDetailMemberId} /></Suspense>
+
+        <Suspense fallback={<p className="text-xs text-slate-400">업적 전당을 불러오고 있습니다…</p>}><AchievementHall onSelectMember={setSelectedDetailMemberId} /></Suspense>
 
         {/* 상단 듀얼 섹션: 시상대 & 꼴찌 구출석 */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -86,7 +90,7 @@ function AtticAppContent() {
 export default function App() {
   return (
     <AtticProvider>
-      <AtticAppContent />
+      <AchievementProvider><AtticAppContent /></AchievementProvider>
     </AtticProvider>
   );
 }

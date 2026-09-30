@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
+const MemberAchievements = lazy(() => import('./Achievements').then(module => ({ default: module.MemberAchievements })));
 import { AssetForm } from './AssetForm';
 import { PerformanceHistory } from './PerformanceHistory';
 import { RankedMember, Asset } from '../types';
@@ -77,6 +78,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
         </div>
 
         {editingAsset && <div className="mt-4"><AssetForm memberId={member.id} initialAsset={editingAsset} onSave={asset=>{addOrUpdateAsset(asset);setEditingAsset(null);}} onCancel={()=>setEditingAsset(null)} /></div>}
+        <Suspense fallback={<p className="text-xs text-slate-400 mt-4">업적 수집판을 불러오고 있습니다…</p>}><MemberAchievements memberId={member.id} /></Suspense>
         <PerformanceHistory memberId={member.id} />
 
         {/* 호스트 전용 안내 띠 (호스트가 타인의 상세를 볼 때) */}

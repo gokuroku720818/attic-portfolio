@@ -1,0 +1,11 @@
+import {expect,it} from 'vitest';
+import {evaluateAchievements} from '../services/achievements';
+import {BriefingSnapshot,shiftDay} from '../services/briefing';
+const row=(day:string,rate=-1,rank=2,holdings='same'):BriefingSnapshot=>({version:1,day,capturedAt:`${day}T10:00:00Z`,members:[{id:'m',name:'명왕',avatar:'👑',rank,rate,holdings},{id:'n',name:'철약',avatar:'💡',rank:rank===1?2:1,rate:3,holdings:'n'}],assets:[]});
+it('수익 기록과 구성 유지 플러스 전환을 구분한다',()=>{const result=evaluateAchievements([row('2026-09-29'),row('2026-09-30',1)],'2026-09-30');expect(result.filter(a=>a.memberId==='m').map(a=>a.id)).toEqual(expect.arrayContaining(['first-record','first-profit','comeback']));});
+it('구성이 변경되면 플러스 전환 업적을 주지 않는다',()=>{expect(evaluateAchievements([row('2026-09-29'),row('2026-09-30',1,2,'edited')],'2026-09-30').some(a=>a.memberId==='m'&&a.id==='comeback')).toBe(false);});
+it('혼자 참가한 1위는 챔피언으로 판정하지 않는다',()=>{const only=row('2026-09-30',1,1);only.members=only.members.slice(0,1);expect(evaluateAchievements([only],'2026-09-30').some(a=>a.id==='first-champion')).toBe(false);});
+it('중복 날짜는 연속 기록에 중복 집계하지 않는다',()=>{expect(evaluateAchievements(Array(7).fill(row('2026-09-30')),'2026-09-30').some(a=>a.id==='streak-7')).toBe(false);});
+it('7일 연속 기록을 달성한 후 중간 기록이 비어도 달성 결과를 발견한다',()=>{const rows=Array.from({length:7},(_,i)=>row(shiftDay('2026-09-01',i)));rows.push(row('2026-09-30'));expect(evaluateAchievements(rows,'2026-09-30').find(a=>a.memberId==='m'&&a.id==='streak-7')?.day).toBe('2026-09-07');});
+it('없는 날은 연속 기록으로 채우지 않는다',()=>{const rows=Array.from({length:7},(_,i)=>row(shiftDay('2026-09-01',i*2)));expect(evaluateAchievements(rows,'2026-09-30').some(a=>a.id==='streak-7')).toBe(false);});
+it('미래 기록은 업적 판정에서 제외한다',()=>{expect(evaluateAchievements([row('2026-10-01',1,1)],'2026-09-30')).toEqual([]);});
