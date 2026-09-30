@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { AssetForm } from './AssetForm';
 import { PerformanceHistory } from './PerformanceHistory';
 import { RankedMember, Asset } from '../types';
 import { calculateAssetMetrics, formatCurrency, formatPercent } from '../utils/calculations';
@@ -17,7 +18,8 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
   assets,
   onClose,
 }) => {
-  const { activeMember } = useAtticStore();
+  const { activeMember, addOrUpdateAsset } = useAtticStore();
+  const [editingAsset,setEditingAsset] = useState<Asset|null>(null);
   const { member, metrics, rank, badges } = rankedMember;
   const isPositive = metrics.profitRate >= 0;
 
@@ -73,6 +75,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           </div>
         </div>
 
+        {editingAsset && <div className="mt-4"><AssetForm memberId={member.id} initialAsset={editingAsset} onSave={asset=>{addOrUpdateAsset(asset);setEditingAsset(null);}} onCancel={()=>setEditingAsset(null)} /></div>}
         <PerformanceHistory memberId={member.id} />
 
         {/* 호스트 전용 안내 띠 (호스트가 타인의 상세를 볼 때) */}
@@ -191,6 +194,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                         <span className="text-[10px] text-slate-500 font-mono">
                           {asset.symbol}
                         </span>
+                        {canViewCapital && <button className="text-[10px] px-2 py-1 rounded border border-amber-500/30 text-amber-300" onClick={()=>setEditingAsset(asset)}>시세·자산 수정</button>}
                       </div>
                       <div className="text-[10px] text-slate-500 mt-1">
                         {asset.priceSource || (asset.type === 'real_estate' || asset.type === 'cash' ? '수동 평가' : '시세 미확인')} · 기준 {Number.isFinite(Date.parse(asset.updatedAt)) ? new Date(asset.updatedAt).toLocaleString('ko-KR', {timeZone:'Asia/Seoul'}) : '미확인'}
