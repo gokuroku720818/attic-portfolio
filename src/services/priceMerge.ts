@@ -6,6 +6,6 @@ export function mergePriceUpdates(current:Asset[],original:Asset[],updated:Asset
   const old=before.get(a.id),q=after.get(a.id);
   if(!old||!q||q===old||a.symbol!==old.symbol||a.type!==old.type||a.memberId!==old.memberId||a.name!==old.name)return a;
   if(a.priceFetchedAt&&q.priceFetchedAt&&Date.parse(a.priceFetchedAt)>Date.parse(q.priceFetchedAt))return a;
-  return {...a,currentPrice:q.currentPrice,updatedAt:q.updatedAt,priceSource:q.priceSource,priceFetchedAt:q.priceFetchedAt};
+  return {...a,type:q.type,currentPrice:q.currentPrice,updatedAt:q.updatedAt,priceSource:q.priceSource,priceFetchedAt:q.priceFetchedAt};
  });
 }

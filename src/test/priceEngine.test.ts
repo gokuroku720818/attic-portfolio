@@ -33,3 +33,8 @@ describe('시세 갱신',()=>{
   expect(await refreshAssetPrices([re,cash])).toEqual([re,cash]);
  });
 });
+it('미국 주식을 국내주식으로 등록했어도 실제 시세 통화로 환산한다',async()=>{
+ mockFetch({SOXL:{name:'SOXL',price:100,type:'us_stock',currency:'USD',source:'Yahoo',quotedAt:at,collectedAt:at}});
+ const result=(await refreshAssetPrices([{...asset,symbol:'SOXL',name:'SOXL'}]))[0];
+ expect(result.currentPrice).toBe(140000);expect(result.type).toBe('us_stock');
+});

@@ -20,6 +20,14 @@ async function json(url:string) {
 }
 // 매번 최신 수집본 조회. 배포본보다 먼저 갱신되는 main의 원본을 우선 사용한다.
 async function loadDynamicPrices():Promise<QuoteMap> {
+  try {
+    const result=await json(`https://api.github.com/repos/gokuroku720818/attic-portfolio/contents/public/prices.json?ref=main&t=${Date.now()}`);
+    if(result.encoding==='base64' && typeof result.content==='string') {
+      const bytes=Uint8Array.from(atob(result.content.replace(/\s/g,'')),c=>c.charCodeAt(0));
+      const value=JSON.parse(new TextDecoder().decode(bytes));
+      if(value && typeof value==='object') return value;
+    }
+  } catch { /* API 제한 또는 통신 오류 시 원본·배포본 사용 */ }
   for (const url of ['https://raw.githubusercontent.com/gokuroku720818/attic-portfolio/main/public/prices.json','./prices.json']) {
     try { const value=await json(`${url}?t=${Date.now()}`); if(value && typeof value==='object') return value; } catch { /* 다음 출처 */ }
   }
@@ -62,13 +70,14 @@ export async function refreshAssetPrices(assets:Asset[]):Promise<Asset[]> {
   const [map,crypto,rate]=await Promise.all([
     assets.some(a=>a.type==='kr_stock'||a.type==='us_stock')?loadDynamicPrices():Promise.resolve({} as QuoteMap),
     cryptoQuotes(assets.filter(a=>a.type==='crypto').map(a=>a.symbol||a.name)),
-    assets.some(a=>a.type==='us_stock')?fetchLiveExchangeRate():Promise.resolve(1),
+    assets.some(a=>a.type==='us_stock'||a.type==='kr_stock')?fetchLiveExchangeRate():Promise.resolve(1),
   ]);
   return assets.map(asset=>{
     if(asset.type==='real_estate'||asset.type==='cash')return asset;
     const source=asset.type==='crypto'?crypto:map;
-    const q=matchQuote(source,asset.symbol,asset.type)||matchQuote(source,asset.name,asset.type);
+    const otherType=asset.type==='kr_stock'?'us_stock':'kr_stock';
+    const q=matchQuote(source,asset.symbol,asset.type)||matchQuote(source,asset.name,asset.type)||(asset.type!=='crypto'?(matchQuote(source,asset.symbol,otherType)||matchQuote(source,asset.name,otherType)):null);
     if(!q || (q.currency==='USD' && rate===null))return asset;
-    return {...asset,currentPrice:q.currency==='USD'?Math.round(q.price*rate!):q.price,updatedAt:q.quotedAt,priceSource:q.source,priceFetchedAt:q.collectedAt};
+    return {...asset,type:q.type,currentPrice:q.currency==='USD'?Math.round(q.price*rate!):q.price,updatedAt:q.quotedAt,priceSource:q.source,priceFetchedAt:q.collectedAt};
   });
 }
