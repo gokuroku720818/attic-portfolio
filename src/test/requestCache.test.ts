@@ -1,0 +1,6 @@
+import {it,expect,vi} from 'vitest';
+import {cachedRequest,invalidateRequests} from '../services/requestCache';
+it('같은 요청이 겹치면 서버를 한 번만 읽는다',async()=>{const request=vi.fn(async()=>42);expect(await Promise.all([cachedRequest('dedupe',request),cachedRequest('dedupe',request)])).toEqual([42,42]);expect(request).toHaveBeenCalledTimes(1);});
+it('저장 후 캐시를 무효화하면 최신 값을 다시 읽는다',async()=>{const request=vi.fn().mockResolvedValueOnce(1).mockResolvedValueOnce(2);expect(await cachedRequest('snapshot-test',request)).toBe(1);invalidateRequests('snapshot-test');expect(await cachedRequest('snapshot-test',request)).toBe(2);});
+it('실패 결과는 캐시하지 않아 다시 시도할 수 있다',async()=>{const request=vi.fn().mockRejectedValueOnce(new Error('offline')).mockResolvedValueOnce(2);await expect(cachedRequest('retry',request)).rejects.toThrow('offline');expect(await cachedRequest('retry',request)).toBe(2);});
+it('저장 전 시작한 조회는 무효화 후 최신 캐시를 덮어쓰지 않는다',async()=>{let resolve!:(v:number)=>void;const old=cachedRequest('race',()=>new Promise<number>(r=>{resolve=r;}));invalidateRequests('race');const fresh=cachedRequest('race',async()=>2);resolve(1);await old;expect(await fresh).toBe(2);expect(await cachedRequest('race',async()=>3)).toBe(2);});

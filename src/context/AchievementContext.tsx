@@ -11,7 +11,7 @@ export function AchievementProvider({children}:{children:ReactNode}) {
   let cancelled=false,busy=false;
   const refresh=async()=>{if(busy)return;busy=true;try{const next=await syncAchievements();if(!cancelled)setValue({...next,status:'서버 업적 저장 확인 완료'});}catch{if(!cancelled)setValue(old=>({...old,status:'업적 서버 연결 실패 · 잠시 후 다시 확인합니다'}));}finally{busy=false;}};
   const initial=setTimeout(()=>void refresh(),2500);
-  const interval=setInterval(()=>{if(document.visibilityState==='visible')void refresh();},15000);
+  const interval=setInterval(()=>{if(document.visibilityState==='visible')void refresh();},60000);
   return()=>{cancelled=true;clearTimeout(initial);clearInterval(interval);};
  },[assets]);
  return <AchievementContext.Provider value={value}>{children}</AchievementContext.Provider>;

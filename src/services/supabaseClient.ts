@@ -1,3 +1,4 @@
+import { fetchWithTimeout } from './network';
 import { createClient } from '@supabase/supabase-js';
 
 export const SUPABASE_URL =
@@ -17,4 +18,4 @@ export const getSupabaseConfig = () => {
   };
 };
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {global:{fetch:fetchWithTimeout}});

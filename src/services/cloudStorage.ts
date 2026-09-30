@@ -1,4 +1,5 @@
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { mergeDataChanges } from './dataMerge';
 import { AtticData } from './storage';
 
 const TABLE_NAME = 'attic_store';
@@ -36,10 +37,21 @@ export async function fetchCloudAtticData(): Promise<AtticData | null> {
 /**
  * 클라우드(Supabase)에 다락방 포트폴리오 데이터를 저장합니다.
  */
-export async function saveCloudAtticData(atticData: AtticData): Promise<boolean> {
+export async function saveCloudAtticData(atticData: AtticData, original?: AtticData): Promise<boolean> {
   if (!isSupabaseConfigured()) return false;
 
   try {
+    if (original) {
+      for (let attempt=0;attempt<3;attempt++) {
+        const {data:row,error:readError}=await supabase.from(TABLE_NAME).select('data, updated_at').eq('key',RECORD_KEY).maybeSingle();
+        if(readError||!row?.data||!row.updated_at)return false;
+        const merged=mergeDataChanges(row.data as AtticData,original,atticData);
+        const {data:saved,error:writeError}=await supabase.from(TABLE_NAME).update({data:merged,updated_at:new Date().toISOString()}).eq('key',RECORD_KEY).eq('updated_at',row.updated_at).select('key');
+        if(writeError)return false;
+        if(saved?.length)return true;
+      }
+      return false;
+    }
     const { error } = await supabase.from(TABLE_NAME).upsert(
       {
         key: RECORD_KEY,

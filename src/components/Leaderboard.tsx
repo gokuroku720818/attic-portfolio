@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { lazy, Suspense, useState, useMemo } from 'react';
 import { useAtticStore } from '../context/AtticContext';
 import { LeaderboardCard } from './LeaderboardCard';
-import { MemberDetailModal } from './MemberDetailModal';
+const MemberDetailModal = lazy(() => import('./MemberDetailModal').then(module => ({ default: module.MemberDetailModal })));
 import { Award } from 'lucide-react';
 
 export const Leaderboard: React.FC = () => {
@@ -92,11 +92,11 @@ export const Leaderboard: React.FC = () => {
       </div>
       {/* 멤버 상세 포트폴리오 모달 */}
       {selectedMemberData && (
-        <MemberDetailModal
+        <Suspense fallback={<p role="status" className="fixed bottom-5 right-5 z-50 bg-slate-800 p-3 rounded-xl">상세 화면을 불러오는 중…</p>}><MemberDetailModal
           rankedMember={selectedMemberData}
           assets={assets.filter((a) => a.memberId === selectedMemberData.member.id)}
           onClose={() => setSelectedMemberId(null)}
-        />
+        /></Suspense>
       )}
     </section>
   );

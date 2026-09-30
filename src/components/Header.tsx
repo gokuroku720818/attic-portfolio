@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenManageModal }) => {
-  const { members, activeMember, logout, refreshPrices, isRefreshing, refreshMessage, resetDataByHost } = useAtticStore();
+  const { members, activeMember, logout, refreshPrices, isRefreshing, refreshMessage, saveMessage, resetDataByHost } = useAtticStore();
   const [isHostModalOpen, setIsHostModalOpen] = useState(false);
   const [hostPinInput, setHostPinInput] = useState('');
   const [hostError, setHostError] = useState('');
@@ -109,7 +109,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenManageModal }) => {
         </div>
       </div>
 
-      <p role="status" aria-live="polite" className="max-w-7xl mx-auto mt-2 text-xs text-slate-400">{refreshMessage}</p>
+      <p role="status" aria-live="polite" className="max-w-7xl mx-auto mt-2 text-xs text-slate-400">{refreshMessage}{saveMessage && <span className="ml-3 text-amber-300">{saveMessage}</span>}</p>
       {/* 호스트(명왕) 초기화 인증 모달 */}
       {isHostModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">

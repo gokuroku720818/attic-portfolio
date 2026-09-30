@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { cacheAtticData } from '../services/localCache';
 import { Asset, Member, RankedMember, Shoutout } from '../types';
 import {
   loadAtticData,
@@ -29,6 +30,7 @@ interface AtticContextType {
   activeMember: Member | null;
   isRefreshing: boolean;
   refreshMessage: string;
+  saveMessage: string;
   history: HistoryDay[];
   loginMember: (memberId: string, pin: string) => boolean;
   logout: () => void;
@@ -52,9 +54,23 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [refreshMessage, setRefreshMessage] = useState('주식: 5분 주기 수집본 · 코인: 업비트 조회');
+  const [saveMessage,setSaveMessage]=useState('');
+  const pendingSaves=useRef(0);
+  const saveQueue=useRef(Promise.resolve());
   const refreshingRef = useRef(false);
   const dataRef = useRef(data);
   dataRef.current = data;
+
+  const persistChange=useCallback((fresh:ReturnType<typeof loadAtticData>,original:ReturnType<typeof loadAtticData>)=>{
+    pendingSaves.current++;
+    setSaveMessage('변경사항 서버 저장 중…');
+    saveQueue.current=saveQueue.current.then(async()=>{
+      const saved=await saveCloudAtticData(fresh,original);
+      pendingSaves.current--;
+      setSaveMessage(saved?'변경사항 서버 저장 완료':'서버 저장 실패 · 변경사항을 다시 확인해 주세요');
+      if(pendingSaves.current===0){const latest=await fetchCloudAtticData();if(latest&&!pendingSaves.current){setData(latest);cacheAtticData(latest);}}
+    }).catch(()=>{pendingSaves.current=Math.max(0,pendingSaves.current-1);setSaveMessage('서버 저장 실패 · 다시 시도해 주세요');});
+  },[]);
 
   // 실시간 랭킹 연산
   const rankedMembers = useMemo(() => {
@@ -77,51 +93,52 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // 1) 초기 클라우드 데이터 로드
     fetchCloudAtticData().then((cloudData) => {
-      if (!isMounted || refreshingRef.current) return;
+      if (!isMounted || refreshingRef.current || pendingSaves.current) return;
       if (cloudData && cloudData.members && cloudData.members.length > 0) {
         setData(cloudData);
         setCloudReady(true);
-        localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
-        localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
-        localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
+        cacheAtticData(cloudData);
       }
     });
 
     // 2) Supabase Realtime 채널 구독
     const unsubscribe = subscribeCloudAtticData((cloudData) => {
-      if (!isMounted || refreshingRef.current) return;
-      setData(cloudData);
-      localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
-      localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
-      localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
+      if (!isMounted || refreshingRef.current || pendingSaves.current) return;
+      setData(current=>JSON.stringify(current)===JSON.stringify(cloudData)?current:cloudData);
+      cacheAtticData(cloudData);
     });
 
-    // 3) 5초 주기 백그라운드 폴링
-    const intervalId = setInterval(() => {
+    // Realtime 보완 조회: 화면이 보일 때만, 요청이 겹치지 않게 30초 주기 확인
+    let polling=false;
+    const poll=() => {
+      if(polling||document.visibilityState!=='visible'||pendingSaves.current||refreshingRef.current)return;
+      polling=true;
       fetchCloudAtticData().then((cloudData) => {
-        if (!isMounted || !cloudData || refreshingRef.current) return;
+        if (!isMounted || !cloudData || refreshingRef.current || pendingSaves.current) return;
+        setCloudReady(true);
         setData((current) => {
           if (JSON.stringify(current) !== JSON.stringify(cloudData)) {
-            localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
-            localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
-            localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
+            cacheAtticData(cloudData);
             return cloudData;
           }
           return current;
         });
-      });
-    }, 5000);
+      }).finally(()=>{polling=false;});
+    };
+    const intervalId = setInterval(poll,30000);
+    document.addEventListener('visibilitychange',poll);
 
     return () => {
       isMounted = false;
       unsubscribe();
       clearInterval(intervalId);
+      document.removeEventListener('visibilitychange',poll);
     };
   }, []);
 
   // 시세 갱신: 저장 성공을 확인한 뒤 공유 데이터 반영
   const refreshPrices = useCallback(async () => {
-    if (refreshingRef.current) return;
+    if (refreshingRef.current || pendingSaves.current) return;
     refreshingRef.current = true;
     setIsRefreshing(true);
     setRefreshMessage('최신 시세 확인 중…');
@@ -139,10 +156,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setRefreshMessage('공유 저장 실패: 기존 데이터 유지 · 다시 시도해 주세요');
         return;
       }
-      setData(saved);
-      localStorage.setItem('attic_assets_v3',JSON.stringify(saved.assets));
-      localStorage.setItem('attic_members_v3',JSON.stringify(saved.members));
-      localStorage.setItem('attic_shoutouts_v3',JSON.stringify(saved.shoutouts));
+      if(!pendingSaves.current){setData(saved);cacheAtticData(saved);}
       setRefreshMessage(`${successCount}/${eligible.length}개 시세 확인 · 공유 저장 완료${successCount < eligible.length ? ' · 실패 종목은 기존 가격 유지' : ''}`);
     } catch {
       setRefreshMessage('시세 갱신 실패: 기존 가격 유지');
@@ -166,11 +180,12 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // 초기 비밀번호 설정
   const setupNewPin = useCallback((memberId: string, newPin: string): boolean => {
+    const original=loadAtticData();
     const success = setMemberPin(memberId, newPin);
     if (success) {
       const fresh = loadAtticData();
       setData(fresh);
-      saveCloudAtticData(fresh);
+      persistChange(fresh,original);
       const member = fresh.members.find((m) => m.id === memberId) || null;
       setActiveMember(member);
       return true;
@@ -196,18 +211,20 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // 자산 추가/수정
   const addOrUpdateAsset = useCallback((asset: Asset) => {
+    const original=loadAtticData();
     saveAsset(asset);
     const fresh = loadAtticData();
     setData(fresh);
-    saveCloudAtticData(fresh);
+    persistChange(fresh,original);
   }, []);
 
   // 자산 삭제
   const deleteAsset = useCallback((assetId: string) => {
+    const original=loadAtticData();
     removeAsset(assetId);
     const fresh = loadAtticData();
     setData(fresh);
-    saveCloudAtticData(fresh);
+    persistChange(fresh,original);
   }, []);
 
   // 사자후 등록
@@ -225,18 +242,20 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       reactionCount: 0,
     };
 
+    const original=loadAtticData();
     saveShoutout(newShoutout);
     const fresh = loadAtticData();
     setData(fresh);
-    saveCloudAtticData(fresh);
+    persistChange(fresh,original);
   }, [data.members]);
 
   // 사자후 공감
   const reactToShoutout = useCallback((shoutoutId: string) => {
+    const original=loadAtticData();
     likeShoutout(shoutoutId);
     const fresh = loadAtticData();
     setData(fresh);
-    saveCloudAtticData(fresh);
+    persistChange(fresh,original);
   }, []);
 
   // 호스트(명왕) 전용 초기화
@@ -245,7 +264,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (res.success) {
       const fresh = loadAtticData();
       setData(fresh);
-      saveCloudAtticData(fresh);
+      void saveCloudAtticData(fresh).then(saved=>setSaveMessage(saved?'초기화 서버 저장 완료':'초기화 서버 저장 실패'));
       setActiveMember(null);
     }
     return res;
@@ -261,6 +280,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         activeMember,
         isRefreshing,
         refreshMessage,
+        saveMessage,
         history,
         loginMember,
         logout,

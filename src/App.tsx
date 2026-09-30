@@ -9,8 +9,8 @@ import { ShoutoutBoard } from './components/ShoutoutBoard';
 import { Podium } from './components/Podium';
 import { RescueStation } from './components/RescueStation';
 import { Leaderboard } from './components/Leaderboard';
-import { ManagePortfolioModal } from './components/ManagePortfolioModal';
-import { MemberDetailModal } from './components/MemberDetailModal';
+const ManagePortfolioModal = lazy(() => import('./components/ManagePortfolioModal').then(module => ({ default: module.ManagePortfolioModal })));
+const MemberDetailModal = lazy(() => import('./components/MemberDetailModal').then(module => ({ default: module.MemberDetailModal })));
 
 function AtticAppContent() {
   const { rankedMembers, assets, members } = useAtticStore();
@@ -72,16 +72,16 @@ function AtticAppContent() {
 
       {/* 7. 포트폴리오 관리 모달 */}
       {isManageModalOpen && (
-        <ManagePortfolioModal onClose={() => setIsManageModalOpen(false)} />
+        <Suspense fallback={<p role="status" className="fixed bottom-5 right-5 bg-slate-800 p-3 rounded-xl z-50">관리 화면을 불러오는 중…</p>}><ManagePortfolioModal onClose={() => setIsManageModalOpen(false)} /></Suspense>
       )}
 
       {/* 8. 멤버 상세 모달 (시상대나 구출석에서 클릭 시) */}
       {detailMemberData && (
-        <MemberDetailModal
+        <Suspense fallback={<p role="status" className="fixed bottom-5 right-5 bg-slate-800 p-3 rounded-xl z-50">상세 화면을 불러오는 중…</p>}><MemberDetailModal
           rankedMember={detailMemberData}
           assets={assets.filter((a) => a.memberId === detailMemberData.member.id)}
           onClose={() => setSelectedDetailMemberId(null)}
-        />
+        /></Suspense>
       )}
     </div>
   );
