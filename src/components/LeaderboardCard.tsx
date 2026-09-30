@@ -2,6 +2,7 @@ import React from 'react';
 import { RankedMember, Asset } from '../types';
 import { formatCurrency, formatPercent } from '../utils/calculations';
 import { useAtticStore } from '../context/AtticContext';
+import { getAssetLinks } from '../utils/stockLinks';
 import { ChevronRight } from 'lucide-react';
 
 interface LeaderboardCardProps {
@@ -92,13 +93,18 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
           {/* 보유 종목 태그 */}
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {memberAssets.slice(0, 3).map((asset) => (
-              <span
+              <a
                 key={asset.id}
-                className="text-[10px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/50 truncate max-w-[120px]"
+                href={getAssetLinks(asset).naverUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`${asset.name} 종목정보 열기`}
+                onClick={e=>e.stopPropagation()}
+                className="text-[10px] text-slate-400 hover:text-emerald-300 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/50 truncate max-w-[120px]"
               >
                 {asset.type === 'real_estate' ? '🏢' : asset.type === 'crypto' ? '⚡' : '📈'}{' '}
-                {asset.name}
-              </span>
+                {asset.name} ↗
+              </a>
             ))}
             {memberAssets.length > 3 && (
               <span className="text-[10px] text-slate-500 font-semibold">

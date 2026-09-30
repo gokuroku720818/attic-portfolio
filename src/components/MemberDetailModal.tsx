@@ -5,6 +5,7 @@ import { RankedMember, Asset } from '../types';
 import { calculateAssetMetrics, formatCurrency, formatPercent } from '../utils/calculations';
 import { useAtticStore } from '../context/AtticContext';
 import { PortfolioPieChart } from './PortfolioPieChart';
+import { getAssetLinks } from '../utils/stockLinks';
 import { X, Lock } from 'lucide-react';
 
 interface MemberDetailModalProps {
@@ -167,6 +168,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
 
           <div className="space-y-2.5">
             {assets.map((asset) => {
+              const links = getAssetLinks(asset);
               const itemMetrics = calculateAssetMetrics(asset);
               const itemPositive = itemMetrics.profit >= 0;
 
@@ -187,13 +189,14 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                         : '🇰🇷'}
                     </span>
                     <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-bold text-slate-100">
-                          {asset.name}
-                        </span>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <a href={links.naverUrl} target="_blank" rel="noopener noreferrer" title={`${asset.name} 종목정보 열기`} onClick={e=>e.stopPropagation()} className="text-sm font-bold text-slate-100 hover:text-emerald-400 hover:underline">{asset.name} ↗</a>
                         <span className="text-[10px] text-slate-500 font-mono">
                           {asset.symbol}
                         </span>
+                        <a href={links.naverUrl} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-[10px] px-2 py-1 rounded border border-emerald-500/30 text-emerald-300">{asset.type === 'real_estate' ? '네이버 부동산' : '네이버증권'} ↗</a>
+                        {links.tossUrl && <a href={links.tossUrl} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-[10px] px-2 py-1 rounded border border-blue-500/30 text-blue-300">토스 ↗</a>}
+                        {links.upbitUrl && <a href={links.upbitUrl} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} className="text-[10px] px-2 py-1 rounded border border-cyan-500/30 text-cyan-300">업비트 ↗</a>}
                         {canViewCapital && <button className="text-[10px] px-2 py-1 rounded border border-amber-500/30 text-amber-300" onClick={()=>setEditingAsset(asset)}>시세·자산 수정</button>}
                       </div>
                       <div className="text-[10px] text-slate-500 mt-1">
