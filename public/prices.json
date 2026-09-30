@@ -1,0 +1,308 @@
+{
+  "105560": {
+    "name": "KB금융",
+    "price": 169400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "196170": {
+    "name": "알테오젠",
+    "price": 255500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "247540": {
+    "name": "에코프로비엠",
+    "price": 108900,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "360750": {
+    "name": "TIGER 미국S&P500",
+    "price": 25825,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "373220": {
+    "name": "LG에너지솔루션",
+    "price": 356000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "005930": {
+    "name": "삼성전자",
+    "price": 269500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "삼성전자": {
+    "name": "삼성전자",
+    "price": 269500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "000660": {
+    "name": "SK하이닉스",
+    "price": 1780000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "SK하이닉스": {
+    "name": "SK하이닉스",
+    "price": 1780000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "005380": {
+    "name": "현대차",
+    "price": 346000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "현대차": {
+    "name": "현대차",
+    "price": 346000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "035720": {
+    "name": "카카오",
+    "price": 33600,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "카카오": {
+    "name": "카카오",
+    "price": 33600,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "035420": {
+    "name": "NAVER",
+    "price": 193400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "NAVER": {
+    "name": "NAVER",
+    "price": 193400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "086520": {
+    "name": "에코프로",
+    "price": 80400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "에코프로": {
+    "name": "에코프로",
+    "price": 80400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "LG에너지솔루션": {
+    "name": "LG에너지솔루션",
+    "price": 356000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "알테오젠": {
+    "name": "알테오젠",
+    "price": 255500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "088980": {
+    "name": "맥쿼리인프라",
+    "price": 9800,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "맥쿼리인프라": {
+    "name": "맥쿼리인프라",
+    "price": 9800,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "005935": {
+    "name": "삼성전자우",
+    "price": 196700,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "삼성전자우": {
+    "name": "삼성전자우",
+    "price": 196700,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "068270": {
+    "name": "셀트리온",
+    "price": 177800,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "셀트리온": {
+    "name": "셀트리온",
+    "price": 177800,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "KB금융": {
+    "name": "KB금융",
+    "price": 169400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "055550": {
+    "name": "신한지주",
+    "price": 106600,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "신한지주": {
+    "name": "신한지주",
+    "price": 106600,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "012330": {
+    "name": "현대모비스",
+    "price": 380500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "현대모비스": {
+    "name": "현대모비스",
+    "price": 380500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "000270": {
+    "name": "기아",
+    "price": 113400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "기아": {
+    "name": "기아",
+    "price": 113400,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "032830": {
+    "name": "삼성생명",
+    "price": 281500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "삼성생명": {
+    "name": "삼성생명",
+    "price": 281500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "028260": {
+    "name": "삼성물산",
+    "price": 342000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "삼성물산": {
+    "name": "삼성물산",
+    "price": 342000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "051910": {
+    "name": "LG화학",
+    "price": 250500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "LG화학": {
+    "name": "LG화학",
+    "price": 250500,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "006400": {
+    "name": "삼성SDI",
+    "price": 515000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "삼성SDI": {
+    "name": "삼성SDI",
+    "price": 515000,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "에코프로비엠": {
+    "name": "에코프로비엠",
+    "price": 108900,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "TIGER 미국S&P500": {
+    "name": "TIGER 미국S&P500",
+    "price": 25825,
+    "type": "kr_stock",
+    "currency": "KRW"
+  },
+  "PLTR": {
+    "name": "PLTR",
+    "price": 186.97,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "AAPL": {
+    "name": "AAPL",
+    "price": 329.4,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "TSLA": {
+    "name": "TSLA",
+    "price": 352.84,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "NVDA": {
+    "name": "NVDA",
+    "price": 227.21,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "MSFT": {
+    "name": "MSFT",
+    "price": 508.96,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "GOOGL": {
+    "name": "GOOGL",
+    "price": 340.92,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "AMZN": {
+    "name": "AMZN",
+    "price": 246.67,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "META": {
+    "name": "META",
+    "price": 738.79,
+    "type": "us_stock",
+    "currency": "USD"
+  },
+  "KO": {
+    "name": "KO",
+    "price": 86.84,
+    "type": "us_stock",
+    "currency": "USD"
+  }
+}
