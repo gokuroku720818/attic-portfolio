@@ -8,7 +8,7 @@ async function scrapeAll(){
  const previous=JSON.parse(fs.readFileSync('public/prices.json','utf8'));
  const results={...previous};let successes=0,failures=0;
  for(const [symbol,old] of Object.entries(previous)){
-  if(!((old.type==='kr_stock'&&/^\d{6}$/.test(symbol))||(old.type==='us_stock'&&/^[A-Z][A-Z0-9.^=-]{0,14}$/.test(symbol))))continue;
+  if(!((old.type==='kr_stock'&&/^[0-9A-Z]{6}$/.test(symbol))||(old.type==='us_stock'&&/^[A-Z][A-Z0-9.^=-]{0,14}$/.test(symbol))))continue;
   try{
    let name,price,quotedAt,source;
    if(old.type==='kr_stock'){
