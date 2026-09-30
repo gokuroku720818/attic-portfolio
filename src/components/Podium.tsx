@@ -23,18 +23,18 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
   }, []);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-amber-500/20 p-6 sm:p-8 shadow-2xl">
+    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border border-amber-500/20 p-4 sm:p-5 shadow-2xl">
       {/* 백그라운드 앰버 스포트라이트 */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-amber-500/10 blur-[100px] pointer-events-none" />
 
       {/* 헤더 */}
-      <div className="text-center mb-8 relative z-10">
+      <div className="text-center mb-4 relative z-10">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-wider mb-2">
           <Trophy className="w-3.5 h-3.5" />
           <span>다락방 명예의 전당 (Top 3)</span>
           <Sparkles className="w-3.5 h-3.5" />
         </div>
-        <h2 className="text-2xl sm:text-3xl font-black text-white">
+        <h2 className="text-xl sm:text-2xl font-black text-white">
           현재 수익률 <span className="text-amber-400">챔피언 시상대</span>
         </h2>
         <p className="text-xs sm:text-sm text-slate-400 mt-1">
@@ -43,7 +43,7 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
       </div>
 
       {/* 시상대 그리드: 2위 (좌) - 1위 (중) - 3위 (우) */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-6 items-end max-w-3xl mx-auto pt-6 pb-2 relative z-10">
+      <div className="grid grid-cols-3 gap-2 sm:gap-6 items-end max-w-3xl mx-auto pt-2 pb-2 relative z-10">
         {/* 2위 (은메달) */}
         {second && (
           <div
@@ -73,7 +73,7 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
             </div>
 
             {/* 시상대 단상 (중간 높이) */}
-            <div className="w-full h-24 sm:h-32 rounded-t-2xl bg-gradient-to-t from-slate-800 to-slate-700/80 border-t-2 border-x-2 border-slate-400/50 flex flex-col items-center justify-center shadow-lg">
+            <div className="w-full h-16 sm:h-20 rounded-t-2xl bg-gradient-to-t from-slate-800 to-slate-700/80 border-t-2 border-x-2 border-slate-400/50 flex flex-col items-center justify-center shadow-lg">
               <Medal className="w-6 h-6 sm:w-8 sm:h-8 text-slate-300" />
               <span className="text-[11px] sm:text-xs font-bold text-slate-300 mt-1">2nd</span>
               <span className="text-[10px] text-slate-400 font-medium hidden sm:block">
@@ -117,7 +117,7 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
             </div>
 
             {/* 시상대 단상 (가장 높음) */}
-            <div className="w-full h-32 sm:h-44 rounded-t-2xl bg-gradient-to-t from-amber-950 to-amber-800/90 border-t-4 border-x-2 border-amber-400 flex flex-col items-center justify-center shadow-2xl shadow-amber-500/20">
+            <div className="w-full h-24 sm:h-28 rounded-t-2xl bg-gradient-to-t from-amber-950 to-amber-800/90 border-t-4 border-x-2 border-amber-400 flex flex-col items-center justify-center shadow-2xl shadow-amber-500/20">
               <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-amber-300 drop-shadow" />
               <span className="text-xs sm:text-sm font-black text-amber-200 mt-1">1st Champion</span>
               <span className="text-[11px] sm:text-xs text-amber-300/80 font-bold hidden sm:block">

@@ -34,9 +34,9 @@ export const RescueStation: React.FC<RescueStationProps> = ({
       {/* 백그라운드 아쿠아 글로우 */}
       <div className="absolute -right-8 -bottom-8 w-48 h-48 bg-cyan-500/10 blur-3xl pointer-events-none" />
 
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="flex flex-col items-start gap-4">
         {/* 좌측: 튜브 아이콘 및 멤버 정보 */}
-        <div className="flex items-center gap-4 text-center sm:text-left">
+        <div className="flex items-center gap-3 min-w-0 w-full">
           <div className="relative">
             <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-gradient-to-b from-cyan-900 to-slate-800 border-2 border-cyan-400 flex items-center justify-center text-3xl sm:text-4xl shadow-lg group-hover:scale-105 transition">
               {bottomMember.member.avatar}
@@ -47,19 +47,19 @@ export const RescueStation: React.FC<RescueStationProps> = ({
           </div>
 
           <div>
-            <div className="flex items-center justify-center sm:justify-start gap-2">
+            <div className="flex flex-wrap items-center justify-start gap-2">
               <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-[11px] font-black uppercase tracking-wider flex items-center gap-1">
                 <LifeBuoy className="w-3 h-3" />
                 <span>오늘의 구출 대상 (Rank {bottomMember.rank})</span>
               </span>
               <span className="text-[11px] text-slate-400 flex items-center gap-0.5">
                 <Thermometer className="w-3 h-3 text-cyan-400" />
-                <span>한강 수온 18.5℃</span>
+                <span>응원이 필요해요</span>
               </span>
             </div>
 
-            <div className="flex items-center justify-center sm:justify-start gap-2 mt-1">
-              <h3 className="text-lg font-black text-white">{bottomMember.member.name}</h3>
+            <div className="flex flex-wrap items-center justify-start gap-2 mt-1">
+              <h3 className="text-lg font-black text-white whitespace-nowrap">{bottomMember.member.name}</h3>
               <span className="text-xs text-cyan-300 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-500/20">
                 {bottomMember.badges[0]?.label || '한강 수온 체크반장'}
               </span>
@@ -72,7 +72,7 @@ export const RescueStation: React.FC<RescueStationProps> = ({
         </div>
 
         {/* 우측: 응원하기 액션 */}
-        <div className="flex flex-col items-center sm:items-end gap-1.5 w-full sm:w-auto">
+        <div className="flex flex-col items-start gap-1.5 w-full">
           <button
             onClick={handleCheer}
             className={`flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all shadow-lg ${

@@ -20,6 +20,8 @@ export interface Asset {
   quantity: number; // 보유 수량
   currentPrice: number; // 현재 평가 단가 (원화 기준)
   currency: 'KRW' | 'USD';
+  priceSource?: string;
+  priceFetchedAt?: string;
   memo?: string; // 투자 메모
   updatedAt: string;
 }

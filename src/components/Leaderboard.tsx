@@ -5,7 +5,7 @@ import { MemberDetailModal } from './MemberDetailModal';
 import { Award } from 'lucide-react';
 
 export const Leaderboard: React.FC = () => {
-  const { rankedMembers, assets } = useAtticStore();
+  const { rankedMembers, assets, members } = useAtticStore();
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<string>('all');
 
@@ -33,7 +33,7 @@ export const Leaderboard: React.FC = () => {
   const selectedMemberData = rankedMembers.find((r) => r.member.id === selectedMemberId);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-8 mt-10 mb-16">
+    <section className="max-w-7xl mx-auto mt-5 mb-10">
       {/* 랭킹 타이틀 및 컨트롤 */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <div>
@@ -62,7 +62,7 @@ export const Leaderboard: React.FC = () => {
             onChange={(e) => setFilterType(e.target.value)}
             className="bg-slate-800/80 border border-slate-700 text-slate-300 text-xs rounded-xl px-3 py-2 font-medium focus:outline-none focus:border-amber-400"
           >
-            <option value="all">전체 멤버 (15명)</option>
+            <option value="all">참가 멤버 ({rankedMembers.length}명)</option>
             <option value="real_estate">🏢 부동산 보유자</option>
             <option value="crypto">⚡ 코인 보유자</option>
             <option value="positive">📈 수익권 멤버</option>
@@ -86,6 +86,10 @@ export const Leaderboard: React.FC = () => {
         })}
       </div>
 
+      <div className="mt-6 rounded-xl border border-slate-800 p-4 text-sm text-slate-400">
+        <p className="font-bold mb-2">참가 대기 · 자산 등록 후 순위에 반영됩니다</p>
+        <div className="flex flex-wrap gap-2">{members.filter(m => !rankedMembers.some(r => r.member.id === m.id)).map(m => <span key={m.id} className="bg-slate-800 px-3 py-1 rounded-lg">{m.avatar} {m.name}</span>)}</div>
+      </div>
       {/* 멤버 상세 포트폴리오 모달 */}
       {selectedMemberData && (
         <MemberDetailModal

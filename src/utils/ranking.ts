@@ -15,7 +15,7 @@ export function calculateRankings(members: Member[], assets: Asset[]): RankedMem
   const listWithMetrics = members.map((member) => ({
     member,
     metrics: calculateMemberMetrics(member, assets),
-  }));
+  })).filter((item) => item.metrics.totalInvested > 0);
 
   // 2. 정렬: 수익률 내림차순 -> 총 자산 내림차순 -> 이름 오름차순
   listWithMetrics.sort((a, b) => {

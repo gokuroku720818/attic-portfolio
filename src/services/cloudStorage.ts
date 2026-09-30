@@ -89,3 +89,19 @@ export function subscribeCloudAtticData(onUpdate: (data: AtticData) => void): ()
     return () => {};
   }
 }
+
+/** 최신 공유 데이터에 가격 필드만 병합하고 버전 충돌 시 재시도한다. */
+export async function saveCloudPriceUpdates(original:import('../types').Asset[],updated:import('../types').Asset[]):Promise<AtticData|null> {
+ if(!isSupabaseConfigured())return null;
+ const {mergePriceUpdates}=await import('./priceMerge');
+ for(let attempt=0;attempt<3;attempt++) {
+  const {data:row,error}=await supabase.from(TABLE_NAME).select('data, updated_at').eq('key',RECORD_KEY).maybeSingle();
+  if(error||!row?.data||!row.updated_at)return null;
+  const current=row.data as AtticData;
+  const next={...current,assets:mergePriceUpdates(current.assets,original,updated)};
+  const {data:saved,error:saveError}=await supabase.from(TABLE_NAME).update({data:next,updated_at:new Date().toISOString()}).eq('key',RECORD_KEY).eq('updated_at',row.updated_at).select('key');
+  if(saveError)return null;
+  if(saved?.length)return next;
+ }
+ return null;
+}

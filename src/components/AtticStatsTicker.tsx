@@ -9,7 +9,7 @@ export const AtticStatsTicker: React.FC = () => {
 
   const totalAssets = rankedMembers.reduce((sum, r) => sum + r.metrics.totalCurrentValue, 0);
   const totalHoldingsCount = assets.length;
-  const activeMembersWithHoldings = rankedMembers.filter((r) => r.metrics.profitRate !== 0);
+  const activeMembersWithHoldings = rankedMembers.filter((r) => r.metrics.totalInvested > 0);
   const averageProfitRate =
     activeMembersWithHoldings.length > 0
       ? activeMembersWithHoldings.reduce((sum, r) => sum + r.metrics.profitRate, 0) /

@@ -54,9 +54,9 @@ export const AssetForm: React.FC<AssetFormProps> = ({
         if (result.name && !name) {
           setName(result.name);
         }
-        setSearchSuccessMessage(`실시간 시세 ${result.price.toLocaleString()}원 적용 완료!`);
+        setSearchSuccessMessage(`조회 시세 ${result.price.toLocaleString()}원 적용 완료!`);
       } else {
-        alert(`'${query}'의 실시간 시세를 찾지 못했습니다. 직접 입력해주세요.`);
+        alert(`'${query}'의 최신 수집 시세를 찾지 못했습니다. 직접 입력해주세요.`);
       }
     } catch (error) {
       alert('시세 조회 중 오류가 발생했습니다.');

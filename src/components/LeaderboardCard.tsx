@@ -15,9 +15,12 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
   memberAssets,
   onSelect,
 }) => {
-  const { activeMember } = useAtticStore();
+  const { activeMember, history } = useAtticStore();
   const { member, metrics, rank, badges } = rankedMember;
   const isPositive = metrics.profitRate >= 0;
+  const today=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+  const previous=history.filter(r=>r.day<today&&r.values[member.id]).slice(-1)[0]?.values[member.id];
+  const movement=previous ? previous.rank-rank : null;
 
   const isHost = activeMember?.name === '명왕';
   const isSelf = activeMember?.id === member.id;
@@ -36,7 +39,7 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
   } else if (rank === 3) {
     cardBorder = 'border-amber-700/40 bg-slate-900/70 hover:border-amber-600';
     rankBadgeBg = 'bg-amber-700 text-amber-100 font-black';
-  } else if (rank === 14) {
+  } else if (badges.some(b => b.id === 'bottom-rank')) {
     cardBorder = 'border-cyan-500/40 bg-gradient-to-r from-cyan-950/20 to-slate-900/70 hover:border-cyan-400';
     rankBadgeBg = 'bg-cyan-500 text-slate-950 font-black';
   }
@@ -85,6 +88,7 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
             </div>
           </div>
 
+          <div className="text-[10px] text-slate-500 mt-1">{movement === null ? '순위 기록 수집 중' : movement === 0 ? '이전 기록 대비 순위 유지' : `이전 기록 대비 ${movement > 0 ? '▲' : '▼'} ${Math.abs(movement)}위`}</div>
           {/* 보유 종목 태그 */}
           <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
             {memberAssets.slice(0, 3).map((asset) => (

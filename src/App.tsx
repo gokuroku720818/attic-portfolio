@@ -10,7 +10,7 @@ import { ManagePortfolioModal } from './components/ManagePortfolioModal';
 import { MemberDetailModal } from './components/MemberDetailModal';
 
 function AtticAppContent() {
-  const { rankedMembers, assets } = useAtticStore();
+  const { rankedMembers, assets, members } = useAtticStore();
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const [selectedDetailMemberId, setSelectedDetailMemberId] = useState<string | null>(null);
 
@@ -29,7 +29,7 @@ function AtticAppContent() {
       <ShoutoutBoard />
 
       {/* 4. 메인 컨텐츠 영역 */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-6 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-4 space-y-5">
         {/* 상단 듀얼 섹션: 시상대 & 꼴찌 구출석 */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
@@ -55,7 +55,7 @@ function AtticAppContent() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="text-amber-400 font-bold">🏠 다락방포트폴리오</span>
-            <span>• 14인의 성투와 우정을 응원합니다</span>
+            <span>• {members.length}명의 성투와 우정을 응원합니다</span>
           </div>
           <div>
             Built with React, TypeScript & Tailwind CSS • Powered by GitHub Pages

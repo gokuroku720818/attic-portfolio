@@ -7,7 +7,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onOpenManageModal }) => {
-  const { activeMember, logout, refreshPrices, isRefreshing, resetDataByHost } = useAtticStore();
+  const { members, activeMember, logout, refreshPrices, isRefreshing, refreshMessage, resetDataByHost } = useAtticStore();
   const [isHostModalOpen, setIsHostModalOpen] = useState(false);
   const [hostPinInput, setHostPinInput] = useState('');
   const [hostError, setHostError] = useState('');
@@ -43,11 +43,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenManageModal }) => {
                 다락방<span className="text-amber-400">포트폴리오</span>
               </h1>
               <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                15 Members
+                {members.length} Members
               </span>
             </div>
             <p className="text-xs text-slate-400 hidden sm:block">
-              주식과 부동산 평단가로 겨루는 우리들만의 실시간 수익률 랭킹
+              주식과 부동산 평단가로 겨루는 우리들만의 수익률 랭킹
             </p>
           </div>
         </div>
@@ -59,10 +59,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenManageModal }) => {
             onClick={() => refreshPrices()}
             disabled={isRefreshing}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 border border-slate-700 transition"
-            title="실시간 시세 갱신"
+            title="최신 수집 시세 확인"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-amber-400' : ''}`} />
-            <span className="hidden md:inline">{isRefreshing ? '조회 중...' : '시세 갱신'}</span>
+            <span>{isRefreshing ? '조회 중...' : '시세 갱신'}</span>
           </button>
 
           {/* 호스트(명왕) 전용 데이터 초기화 버튼 */}
@@ -109,6 +109,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenManageModal }) => {
         </div>
       </div>
 
+      <p role="status" aria-live="polite" className="max-w-7xl mx-auto mt-2 text-xs text-slate-400">{refreshMessage}</p>
       {/* 호스트(명왕) 초기화 인증 모달 */}
       {isHostModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-fade-in">

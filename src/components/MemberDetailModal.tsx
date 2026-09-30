@@ -1,4 +1,5 @@
 import React from 'react';
+import { PerformanceHistory } from './PerformanceHistory';
 import { RankedMember, Asset } from '../types';
 import { calculateAssetMetrics, formatCurrency, formatPercent } from '../utils/calculations';
 import { useAtticStore } from '../context/AtticContext';
@@ -71,6 +72,8 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
             </div>
           </div>
         </div>
+
+        <PerformanceHistory memberId={member.id} />
 
         {/* 호스트 전용 안내 띠 (호스트가 타인의 상세를 볼 때) */}
         {isHost && !isSelf && (
@@ -188,6 +191,9 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                         <span className="text-[10px] text-slate-500 font-mono">
                           {asset.symbol}
                         </span>
+                      </div>
+                      <div className="text-[10px] text-slate-500 mt-1">
+                        {asset.priceSource || (asset.type === 'real_estate' || asset.type === 'cash' ? '수동 평가' : '시세 미확인')} · 기준 {Number.isFinite(Date.parse(asset.updatedAt)) ? new Date(asset.updatedAt).toLocaleString('ko-KR', {timeZone:'Asia/Seoul'}) : '미확인'}
                       </div>
                       <div className="text-xs text-slate-400 mt-0.5">
                         매수 평단 {formatCurrency(asset.buyPrice)}

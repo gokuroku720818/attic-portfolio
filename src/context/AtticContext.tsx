@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Asset, Member, RankedMember, Shoutout } from '../types';
 import {
   loadAtticData,
@@ -11,12 +11,14 @@ import {
   setMemberPin,
   resetDataByHost as storageResetByHost,
 } from '../services/storage';
+import { HistoryDay, loadHistory, updateHistory } from '../services/history';
 import { calculateRankings } from '../utils/ranking';
 import { refreshAssetPrices } from '../services/priceEngine';
 import {
   fetchCloudAtticData,
   saveCloudAtticData,
   subscribeCloudAtticData,
+  saveCloudPriceUpdates,
 } from '../services/cloudStorage';
 
 interface AtticContextType {
@@ -26,6 +28,8 @@ interface AtticContextType {
   rankedMembers: RankedMember[];
   activeMember: Member | null;
   isRefreshing: boolean;
+  refreshMessage: string;
+  history: HistoryDay[];
   loginMember: (memberId: string, pin: string) => boolean;
   logout: () => void;
   checkIsPinSet: (memberId: string) => boolean;
@@ -42,13 +46,30 @@ const AtticContext = createContext<AtticContextType | undefined>(undefined);
 
 export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [data, setData] = useState(() => loadAtticData());
+  const [history,setHistory] = useState(loadHistory);
+  const [cloudReady,setCloudReady] = useState(false);
   const [activeMember, setActiveMember] = useState<Member | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const [refreshMessage, setRefreshMessage] = useState('주식: 5분 주기 수집본 · 코인: 업비트 조회');
+  const refreshingRef = useRef(false);
+  const dataRef = useRef(data);
+  dataRef.current = data;
 
   // 실시간 랭킹 연산
   const rankedMembers = useMemo(() => {
     return calculateRankings(data.members, data.assets);
   }, [data.members, data.assets]);
+
+  useEffect(() => {
+    if (!cloudReady || !rankedMembers.length) return;
+    const day=new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Seoul'});
+    setHistory(previous => {
+      const next=updateHistory(previous,{day,values:Object.fromEntries(rankedMembers.map(r=>[r.member.id,{rank:r.rank,rate:r.metrics.profitRate}]))});
+      try {localStorage.setItem('attic_history_v1',JSON.stringify(next));} catch { /* 저장 공간 부족 시 현재 화면 기록만 유지 */ }
+      return next;
+    });
+  },[rankedMembers,cloudReady]);
 
   // 클라우드(Supabase) 실시간 동기화 라이프사이클
   useEffect(() => {
@@ -56,21 +77,19 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // 1) 초기 클라우드 데이터 로드
     fetchCloudAtticData().then((cloudData) => {
-      if (!isMounted) return;
+      if (!isMounted || refreshingRef.current) return;
       if (cloudData && cloudData.members && cloudData.members.length > 0) {
         setData(cloudData);
+        setCloudReady(true);
         localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
         localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
         localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
-      } else {
-        const initial = loadAtticData();
-        saveCloudAtticData(initial);
       }
     });
 
     // 2) Supabase Realtime 채널 구독
     const unsubscribe = subscribeCloudAtticData((cloudData) => {
-      if (!isMounted) return;
+      if (!isMounted || refreshingRef.current) return;
       setData(cloudData);
       localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
       localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
@@ -80,7 +99,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     // 3) 5초 주기 백그라운드 폴링
     const intervalId = setInterval(() => {
       fetchCloudAtticData().then((cloudData) => {
-        if (!isMounted || !cloudData) return;
+        if (!isMounted || !cloudData || refreshingRef.current) return;
         setData((current) => {
           if (JSON.stringify(current) !== JSON.stringify(cloudData)) {
             localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
@@ -100,23 +119,45 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
   }, []);
 
-  // 시세 갱신
+  // 시세 갱신: 저장 성공을 확인한 뒤 공유 데이터 반영
   const refreshPrices = useCallback(async () => {
+    if (refreshingRef.current) return;
+    refreshingRef.current = true;
     setIsRefreshing(true);
+    setRefreshMessage('최신 시세 확인 중…');
     try {
-      const updatedAssets = await refreshAssetPrices(data.assets);
-      setData((prev) => {
-        const next = { ...prev, assets: updatedAssets };
-        localStorage.setItem('attic_assets_v3', JSON.stringify(updatedAssets));
-        saveCloudAtticData(next);
-        return next;
-      });
-    } catch (error) {
-      console.error('시세 갱신 실패:', error);
+      const original = dataRef.current.assets;
+      const updatedAssets = await refreshAssetPrices(original);
+      const eligible = original.filter(a => ['kr_stock','us_stock','crypto'].includes(a.type));
+      const successCount = updatedAssets.filter((a,i) => a !== original[i]).length;
+      if (!successCount) {
+        setRefreshMessage(eligible.length ? '조회 실패 또는 오래된 수집본: 기존 가격 유지' : '자동 갱신할 주식·코인이 없습니다');
+        return;
+      }
+      const saved = await saveCloudPriceUpdates(original,updatedAssets);
+      if (!saved) {
+        setRefreshMessage('공유 저장 실패: 기존 데이터 유지 · 다시 시도해 주세요');
+        return;
+      }
+      setData(saved);
+      localStorage.setItem('attic_assets_v3',JSON.stringify(saved.assets));
+      localStorage.setItem('attic_members_v3',JSON.stringify(saved.members));
+      localStorage.setItem('attic_shoutouts_v3',JSON.stringify(saved.shoutouts));
+      setRefreshMessage(`${successCount}/${eligible.length}개 시세 확인 · 공유 저장 완료${successCount < eligible.length ? ' · 실패 종목은 기존 가격 유지' : ''}`);
+    } catch {
+      setRefreshMessage('시세 갱신 실패: 기존 가격 유지');
     } finally {
+      refreshingRef.current = false;
       setIsRefreshing(false);
     }
-  }, [data.assets]);
+  }, []);
+
+  useEffect(() => {
+    if (!cloudReady) return;
+    void refreshPrices();
+    const timer=setInterval(() => {if(document.visibilityState==='visible') void refreshPrices();},300000);
+    return () => clearInterval(timer);
+  },[cloudReady,refreshPrices]);
 
   // 비밀번호 설정 여부 확인
   const checkIsPinSet = useCallback((memberId: string) => {
@@ -219,6 +260,8 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         rankedMembers,
         activeMember,
         isRefreshing,
+        refreshMessage,
+        history,
         loginMember,
         logout,
         checkIsPinSet,
