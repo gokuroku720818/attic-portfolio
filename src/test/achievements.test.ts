@@ -9,3 +9,4 @@ it('중복 날짜는 연속 기록에 중복 집계하지 않는다',()=>{expect
 it('7일 연속 기록을 달성한 후 중간 기록이 비어도 달성 결과를 발견한다',()=>{const rows=Array.from({length:7},(_,i)=>row(shiftDay('2026-09-01',i)));rows.push(row('2026-09-30'));expect(evaluateAchievements(rows,'2026-09-30').find(a=>a.memberId==='m'&&a.id==='streak-7')?.day).toBe('2026-09-07');});
 it('없는 날은 연속 기록으로 채우지 않는다',()=>{const rows=Array.from({length:7},(_,i)=>row(shiftDay('2026-09-01',i*2)));expect(evaluateAchievements(rows,'2026-09-30').some(a=>a.id==='streak-7')).toBe(false);});
 it('미래 기록은 업적 판정에서 제외한다',()=>{expect(evaluateAchievements([row('2026-10-01',1,1)],'2026-09-30')).toEqual([]);});
+it('30개 서로 다른 날짜 기록은 누적 업적을 부여한다',()=>{const rows=Array.from({length:30},(_,i)=>row(shiftDay('2026-08-01',i*2)));expect(evaluateAchievements(rows,'2026-09-30').find(a=>a.memberId==='m'&&a.id==='records-30')?.day).toBe('2026-09-28');});
