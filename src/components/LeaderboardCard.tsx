@@ -1,6 +1,6 @@
 import React from 'react';
 import { RankedMember, Asset } from '../types';
-import { formatCurrency, formatPercent } from '../utils/calculations';
+import { formatPercent } from '../utils/calculations';
 import { ChevronRight } from 'lucide-react';
 
 interface LeaderboardCardProps {
@@ -99,12 +99,12 @@ export const LeaderboardCard: React.FC<LeaderboardCardProps> = ({
         </div>
       </div>
 
-      {/* 우측: 총 자산 규모 및 수익률 */}
+      {/* 우측: 등록 종목 수 및 수익률 (자금규모 제거) */}
       <div className="flex items-center justify-between md:justify-end gap-6 w-full md:w-auto pt-2 md:pt-0 border-t md:border-t-0 border-slate-800/60">
         <div className="text-left md:text-right">
-          <div className="text-[11px] text-slate-400 font-medium">총 평가 자산</div>
+          <div className="text-[11px] text-slate-400 font-medium">등록 종목</div>
           <div className="text-base sm:text-lg font-black text-slate-100">
-            {formatCurrency(metrics.totalCurrentValue)}
+            {memberAssets.length}개
           </div>
         </div>
 

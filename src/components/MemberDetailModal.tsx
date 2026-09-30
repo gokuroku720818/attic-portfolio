@@ -66,35 +66,24 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
           </div>
         </div>
 
-        {/* 핵심 메트릭 요약 그리드 */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 my-6">
+        {/* 핵심 메트릭 요약 그리드 (자금규모 제거) */}
+        <div className="grid grid-cols-3 gap-2.5 my-6">
           <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">총 평가 자산</div>
+            <div className="text-[11px] text-slate-400 font-medium">등록 종목</div>
             <div className="text-sm sm:text-base font-black text-slate-100 mt-0.5">
-              {formatCurrency(metrics.totalCurrentValue)}
+              {assets.length}개
             </div>
           </div>
 
           <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">총 투자 원금</div>
-            <div className="text-sm sm:text-base font-black text-slate-300 mt-0.5">
-              {formatCurrency(metrics.totalInvested)}
+            <div className="text-[11px] text-slate-400 font-medium">리그 순위</div>
+            <div className="text-sm sm:text-base font-black text-amber-300 mt-0.5">
+              {rank}위
             </div>
           </div>
 
           <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">평가 손익</div>
-            <div
-              className={`text-sm sm:text-base font-black mt-0.5 ${
-                isPositive ? 'text-rose-400' : 'text-blue-400'
-              }`}
-            >
-              {formatCurrency(metrics.totalProfit)}
-            </div>
-          </div>
-
-          <div className="p-3 rounded-2xl bg-slate-800/60 border border-slate-700/60 text-center">
-            <div className="text-[11px] text-slate-400 font-medium">총 수익률</div>
+            <div className="text-[11px] text-slate-400 font-medium">평균 수익률</div>
             <div
               className={`text-sm sm:text-base font-black mt-0.5 ${
                 isPositive ? 'text-rose-400' : 'text-blue-400'
@@ -158,7 +147,7 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                         </span>
                       </div>
                       <div className="text-xs text-slate-400 mt-0.5">
-                        평단가 {formatCurrency(asset.buyPrice)} • {asset.quantity}주/개
+                        매수 평단 {formatCurrency(asset.buyPrice)}
                         {asset.memo && (
                           <span className="text-amber-400/80 ml-1.5 italic">
                             "{asset.memo}"
@@ -168,12 +157,12 @@ export const MemberDetailModal: React.FC<MemberDetailModalProps> = ({
                     </div>
                   </div>
 
-                  {/* 시세 및 수익률 */}
+                  {/* 현재 시세 및 수익률 (자금규모 제거) */}
                   <div className="flex items-center justify-between sm:justify-end gap-5 text-right border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-700/40">
                     <div>
-                      <div className="text-[11px] text-slate-400">현재 평가액</div>
+                      <div className="text-[11px] text-slate-400">현재 시세</div>
                       <div className="text-xs sm:text-sm font-bold text-slate-200">
-                        {formatCurrency(itemMetrics.currentValue)}
+                        {formatCurrency(asset.currentPrice)}
                       </div>
                     </div>
 

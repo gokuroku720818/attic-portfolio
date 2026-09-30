@@ -7,10 +7,9 @@ import { Award } from 'lucide-react';
 export const Leaderboard: React.FC = () => {
   const { rankedMembers, assets } = useAtticStore();
   const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<'profit' | 'assets'>('profit');
   const [filterType, setFilterType] = useState<string>('all');
 
-  // 정렬 및 필터링된 멤버 목록
+  // 정렬 및 필터링된 멤버 목록 (수익률 순위로 유지)
   const displayMembers = useMemo(() => {
     let list = [...rankedMembers];
 
@@ -25,15 +24,11 @@ export const Leaderboard: React.FC = () => {
       list = list.filter((r) => r.metrics.profitRate < 0);
     }
 
-    // 정렬
-    if (sortBy === 'assets') {
-      list.sort((a, b) => b.metrics.totalCurrentValue - a.metrics.totalCurrentValue);
-    } else {
-      list.sort((a, b) => b.metrics.profitRate - a.metrics.profitRate);
-    }
+    // 수익률 순으로 정렬
+    list.sort((a, b) => b.metrics.profitRate - a.metrics.profitRate);
 
     return list;
-  }, [rankedMembers, sortBy, filterType]);
+  }, [rankedMembers, filterType]);
 
   const selectedMemberData = rankedMembers.find((r) => r.member.id === selectedMemberId);
 
@@ -58,31 +53,8 @@ export const Leaderboard: React.FC = () => {
           </p>
         </div>
 
-        {/* 필터 & 정렬 버튼 그룹 */}
+        {/* 필터 그룹 */}
         <div className="flex flex-wrap items-center gap-2">
-          {/* 정렬 토글 */}
-          <div className="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700 text-xs">
-            <button
-              onClick={() => setSortBy('profit')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                sortBy === 'profit'
-                  ? 'bg-amber-500 text-slate-950 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              수익률순
-            </button>
-            <button
-              onClick={() => setSortBy('assets')}
-              className={`px-3 py-1.5 rounded-lg font-bold transition ${
-                sortBy === 'assets'
-                  ? 'bg-amber-500 text-slate-950 shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              자산규모순
-            </button>
-          </div>
 
           {/* 태그 필터 */}
           <select

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RankedMember } from '../types';
-import { formatCurrency, formatPercent } from '../utils/calculations';
+import { formatPercent } from '../utils/calculations';
 import { triggerRescueCheer } from '../utils/confetti';
 import { LifeBuoy, Heart, Thermometer } from 'lucide-react';
 
@@ -66,7 +66,7 @@ export const RescueStation: React.FC<RescueStationProps> = ({
             </div>
 
             <p className="text-xs text-slate-400 mt-1">
-              현재 손익: <span className="font-bold text-blue-400">{formatPercent(bottomMember.metrics.profitRate)}</span> ({formatCurrency(bottomMember.metrics.totalProfit)})
+              현재 수익률: <span className="font-bold text-blue-400">{formatPercent(bottomMember.metrics.profitRate)}</span>
             </p>
           </div>
         </div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { formatCurrency } from '../utils/calculations';
 
 interface PortfolioPieChartProps {
   breakdown: {
@@ -83,9 +82,9 @@ export const PortfolioPieChart: React.FC<PortfolioPieChartProps> = ({ breakdown,
 
         {/* 중앙 텍스트 */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-          <span className="text-[10px] text-slate-400 font-medium">총 자산</span>
+          <span className="text-[10px] text-slate-400 font-medium">자산군</span>
           <span className="text-xs font-black text-amber-300">
-            {formatCurrency(total)}
+            포트폴리오
           </span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RankedMember } from '../types';
-import { formatCurrency, formatPercent } from '../utils/calculations';
+import { formatPercent } from '../utils/calculations';
 import { triggerGoldConfetti } from '../utils/confetti';
 import { Trophy, Medal, Sparkles } from 'lucide-react';
 
@@ -77,7 +77,7 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
               <Medal className="w-6 h-6 sm:w-8 sm:h-8 text-slate-300" />
               <span className="text-[11px] sm:text-xs font-bold text-slate-300 mt-1">2nd</span>
               <span className="text-[10px] text-slate-400 font-medium hidden sm:block">
-                {formatCurrency(second.metrics.totalCurrentValue)}
+                수익률 2위
               </span>
             </div>
           </div>
@@ -121,7 +121,7 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
               <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-amber-300 drop-shadow" />
               <span className="text-xs sm:text-sm font-black text-amber-200 mt-1">1st Champion</span>
               <span className="text-[11px] sm:text-xs text-amber-300/80 font-bold hidden sm:block">
-                {formatCurrency(first.metrics.totalCurrentValue)}
+                수익률 1위 챔피언
               </span>
             </div>
           </div>
@@ -159,7 +159,7 @@ export const Podium: React.FC<PodiumProps> = ({ rankedMembers, onSelectMember })
               <Medal className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600" />
               <span className="text-[11px] sm:text-xs font-bold text-amber-500 mt-1">3rd</span>
               <span className="text-[10px] text-slate-400 font-medium hidden sm:block">
-                {formatCurrency(third.metrics.totalCurrentValue)}
+                수익률 3위
               </span>
             </div>
           </div>

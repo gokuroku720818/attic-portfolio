@@ -431,18 +431,16 @@ export const ManagePortfolioModal: React.FC<ManagePortfolioModalProps> = ({ onCl
                             </span>
                           </div>
                           <div className="text-xs text-slate-400 mt-0.5">
-                            평단가 {formatCurrency(asset.buyPrice)} • {asset.quantity}개 • 현재시세 {formatCurrency(asset.currentPrice)}
+                            매수 평단 {formatCurrency(asset.buyPrice)} • 현재 시세 {formatCurrency(asset.currentPrice)}
                           </div>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-700/40">
                         <div className="text-right">
-                          <div className="text-xs font-bold text-slate-200">
-                            {formatCurrency(itemMetrics.currentValue)}
-                          </div>
+                          <div className="text-[10px] text-slate-400">수익률</div>
                           <div
-                            className={`text-xs font-bold ${
+                            className={`text-sm font-black ${
                               isPositive ? 'text-rose-400' : 'text-blue-400'
                             }`}
                           >
