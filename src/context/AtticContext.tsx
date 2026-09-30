@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { Asset, Member, RankedMember, Shoutout } from '../types';
 import {
   loadAtticData,
@@ -13,6 +13,11 @@ import {
 } from '../services/storage';
 import { calculateRankings } from '../utils/ranking';
 import { refreshAssetPrices } from '../services/priceEngine';
+import {
+  fetchCloudAtticData,
+  saveCloudAtticData,
+  subscribeCloudAtticData,
+} from '../services/cloudStorage';
 
 interface AtticContextType {
   members: Member[];
@@ -45,6 +50,56 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return calculateRankings(data.members, data.assets);
   }, [data.members, data.assets]);
 
+  // 클라우드(Supabase) 실시간 동기화 라이프사이클
+  useEffect(() => {
+    let isMounted = true;
+
+    // 1) 초기 클라우드 데이터 로드
+    fetchCloudAtticData().then((cloudData) => {
+      if (!isMounted) return;
+      if (cloudData && cloudData.members && cloudData.members.length > 0) {
+        setData(cloudData);
+        localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
+        localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
+        localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
+      } else {
+        const initial = loadAtticData();
+        saveCloudAtticData(initial);
+      }
+    });
+
+    // 2) Supabase Realtime 채널 구독
+    const unsubscribe = subscribeCloudAtticData((cloudData) => {
+      if (!isMounted) return;
+      setData(cloudData);
+      localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
+      localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
+      localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
+    });
+
+    // 3) 5초 주기 백그라운드 폴링
+    const intervalId = setInterval(() => {
+      fetchCloudAtticData().then((cloudData) => {
+        if (!isMounted || !cloudData) return;
+        setData((current) => {
+          if (JSON.stringify(current) !== JSON.stringify(cloudData)) {
+            localStorage.setItem('attic_members_v3', JSON.stringify(cloudData.members));
+            localStorage.setItem('attic_assets_v3', JSON.stringify(cloudData.assets));
+            localStorage.setItem('attic_shoutouts_v3', JSON.stringify(cloudData.shoutouts));
+            return cloudData;
+          }
+          return current;
+        });
+      });
+    }, 5000);
+
+    return () => {
+      isMounted = false;
+      unsubscribe();
+      clearInterval(intervalId);
+    };
+  }, []);
+
   // 시세 갱신
   const refreshPrices = useCallback(async () => {
     setIsRefreshing(true);
@@ -53,6 +108,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setData((prev) => {
         const next = { ...prev, assets: updatedAssets };
         localStorage.setItem('attic_assets_v3', JSON.stringify(updatedAssets));
+        saveCloudAtticData(next);
         return next;
       });
     } catch (error) {
@@ -73,6 +129,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (success) {
       const fresh = loadAtticData();
       setData(fresh);
+      saveCloudAtticData(fresh);
       const member = fresh.members.find((m) => m.id === memberId) || null;
       setActiveMember(member);
       return true;
@@ -99,13 +156,17 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // 자산 추가/수정
   const addOrUpdateAsset = useCallback((asset: Asset) => {
     saveAsset(asset);
-    setData(loadAtticData());
+    const fresh = loadAtticData();
+    setData(fresh);
+    saveCloudAtticData(fresh);
   }, []);
 
   // 자산 삭제
   const deleteAsset = useCallback((assetId: string) => {
     removeAsset(assetId);
-    setData(loadAtticData());
+    const fresh = loadAtticData();
+    setData(fresh);
+    saveCloudAtticData(fresh);
   }, []);
 
   // 사자후 등록
@@ -124,20 +185,26 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     saveShoutout(newShoutout);
-    setData(loadAtticData());
+    const fresh = loadAtticData();
+    setData(fresh);
+    saveCloudAtticData(fresh);
   }, [data.members]);
 
   // 사자후 공감
   const reactToShoutout = useCallback((shoutoutId: string) => {
     likeShoutout(shoutoutId);
-    setData(loadAtticData());
+    const fresh = loadAtticData();
+    setData(fresh);
+    saveCloudAtticData(fresh);
   }, []);
 
   // 호스트(명왕) 전용 초기화
   const resetDataByHost = useCallback((hostPin: string) => {
     const res = storageResetByHost(hostPin);
     if (res.success) {
-      setData(loadAtticData());
+      const fresh = loadAtticData();
+      setData(fresh);
+      saveCloudAtticData(fresh);
       setActiveMember(null);
     }
     return res;
