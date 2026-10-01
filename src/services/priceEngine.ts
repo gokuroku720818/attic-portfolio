@@ -79,7 +79,7 @@ function matchQuote(map:QuoteMap,query:string,type:Asset['type']):Quote|null {
 export async function lookupLiveStockPrice(query:string,type:'kr_stock'|'us_stock'|'crypto'):Promise<{price:number;currency:'KRW'|'USD';name?:string}|null> {
   const map=type==='crypto'?await cryptoQuotes([query]):await loadDynamicPrices();
   const q=matchQuote(map,query,type);if(!q)return null;
-  const rate=q.currency==='USD'?await fetchLiveExchangeRate():1;if(rate===null)return null;
+  const rate=q.currency==='USD'?((await fetchLiveExchangeRate())??matchQuote(map,'USDKRW=X','cash')?.price??null):1;if(rate===null)return null;
   return {price:q.currency==='USD'?Math.round(q.price*rate):q.price,currency:'KRW',name:q.name};
 }
 export async function refreshAssetPrices(assets:Asset[]):Promise<Asset[]> {
@@ -89,6 +89,7 @@ export async function refreshAssetPrices(assets:Asset[]):Promise<Asset[]> {
     assets.some(a=>a.type==='us_stock'||a.type==='kr_stock')?fetchLiveExchangeRate():Promise.resolve(1),
     domesticQuotes(assets),
   ]);
+  const exchangeRate=rate??matchQuote(map,'USDKRW=X','cash')?.price??null;
   return assets.map(asset=>{
     if(asset.type==='real_estate'||asset.type==='cash')return asset;
     const source=asset.type==='crypto'?crypto:map;
@@ -96,7 +97,7 @@ export async function refreshAssetPrices(assets:Asset[]):Promise<Asset[]> {
     const collected=matchQuote(source,asset.symbol,asset.type)||matchQuote(source,asset.name,asset.type)||(asset.type!=='crypto'?(matchQuote(source,asset.symbol,otherType)||matchQuote(source,asset.name,otherType)):null);
     const direct=asset.type==='kr_stock'?matchQuote(domestic,getAssetLinks(asset).codeOrSymbol,'kr_stock'):null;
     const q=direct&&(!collected||Date.parse(direct.quotedAt)>=Date.parse(collected.quotedAt))?direct:collected;
-    if(!q || (q.currency==='USD' && rate===null))return asset;
-    return {...asset,type:q.type,currentPrice:q.currency==='USD'?Math.round(q.price*rate!):q.price,updatedAt:q.quotedAt,priceSource:q.source,priceFetchedAt:q.collectedAt};
+    if(!q || (q.currency==='USD' && exchangeRate===null))return asset;
+    return {...asset,type:q.type,currentPrice:q.currency==='USD'?Math.round(q.price*exchangeRate!):q.price,updatedAt:q.quotedAt,priceSource:q.source,priceFetchedAt:q.collectedAt};
   });
 }
