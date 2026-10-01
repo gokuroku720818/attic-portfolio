@@ -5,8 +5,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:00.000Z",
-    "collectedAt": "2026-10-01T23:42:00.322Z"
+    "quotedAt": "2026-10-01T23:51:34.000Z",
+    "collectedAt": "2026-10-01T23:51:34.901Z"
   },
   "196170": {
     "name": "알테오젠",
@@ -14,8 +14,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:00.000Z",
-    "collectedAt": "2026-10-01T23:42:00.870Z"
+    "quotedAt": "2026-10-01T23:51:35.000Z",
+    "collectedAt": "2026-10-01T23:51:35.464Z"
   },
   "247540": {
     "name": "에코프로비엠",
@@ -23,8 +23,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:01.000Z",
-    "collectedAt": "2026-10-01T23:42:01.278Z"
+    "quotedAt": "2026-10-01T23:51:35.000Z",
+    "collectedAt": "2026-10-01T23:51:36.023Z"
   },
   "360750": {
     "name": "TIGER 미국S&P500",
@@ -32,8 +32,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:01.000Z",
-    "collectedAt": "2026-10-01T23:42:01.865Z"
+    "quotedAt": "2026-10-01T23:51:36.000Z",
+    "collectedAt": "2026-10-01T23:51:36.645Z"
   },
   "373220": {
     "name": "LG에너지솔루션",
@@ -41,8 +41,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:02.000Z",
-    "collectedAt": "2026-10-01T23:42:02.416Z"
+    "quotedAt": "2026-10-01T23:51:36.000Z",
+    "collectedAt": "2026-10-01T23:51:37.070Z"
   },
   "005930": {
     "name": "삼성전자",
@@ -50,8 +50,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:02.000Z",
-    "collectedAt": "2026-10-01T23:42:03.018Z"
+    "quotedAt": "2026-10-01T23:51:37.000Z",
+    "collectedAt": "2026-10-01T23:51:37.858Z"
   },
   "삼성전자": {
     "name": "삼성전자",
@@ -59,8 +59,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:02.000Z",
-    "collectedAt": "2026-10-01T23:42:03.018Z"
+    "quotedAt": "2026-10-01T23:51:37.000Z",
+    "collectedAt": "2026-10-01T23:51:37.858Z"
   },
   "000660": {
     "name": "SK하이닉스",
@@ -68,8 +68,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:03.000Z",
-    "collectedAt": "2026-10-01T23:42:03.439Z"
+    "quotedAt": "2026-10-01T23:51:38.000Z",
+    "collectedAt": "2026-10-01T23:51:38.421Z"
   },
   "SK하이닉스": {
     "name": "SK하이닉스",
@@ -77,8 +77,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:03.000Z",
-    "collectedAt": "2026-10-01T23:42:03.439Z"
+    "quotedAt": "2026-10-01T23:51:38.000Z",
+    "collectedAt": "2026-10-01T23:51:38.421Z"
   },
   "005380": {
     "name": "현대차",
@@ -86,8 +86,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:03.000Z",
-    "collectedAt": "2026-10-01T23:42:03.976Z"
+    "quotedAt": "2026-10-01T23:51:38.000Z",
+    "collectedAt": "2026-10-01T23:51:38.864Z"
   },
   "현대차": {
     "name": "현대차",
@@ -95,8 +95,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:03.000Z",
-    "collectedAt": "2026-10-01T23:42:03.976Z"
+    "quotedAt": "2026-10-01T23:51:38.000Z",
+    "collectedAt": "2026-10-01T23:51:38.864Z"
   },
   "035720": {
     "name": "카카오",
@@ -104,8 +104,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:04.000Z",
-    "collectedAt": "2026-10-01T23:42:04.386Z"
+    "quotedAt": "2026-10-01T23:51:39.000Z",
+    "collectedAt": "2026-10-01T23:51:39.293Z"
   },
   "카카오": {
     "name": "카카오",
@@ -113,8 +113,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:04.000Z",
-    "collectedAt": "2026-10-01T23:42:04.386Z"
+    "quotedAt": "2026-10-01T23:51:39.000Z",
+    "collectedAt": "2026-10-01T23:51:39.293Z"
   },
   "035420": {
     "name": "NAVER",
@@ -122,8 +122,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:04.000Z",
-    "collectedAt": "2026-10-01T23:42:04.792Z"
+    "quotedAt": "2026-10-01T23:51:39.000Z",
+    "collectedAt": "2026-10-01T23:51:39.712Z"
   },
   "NAVER": {
     "name": "NAVER",
@@ -131,8 +131,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:04.000Z",
-    "collectedAt": "2026-10-01T23:42:04.792Z"
+    "quotedAt": "2026-10-01T23:51:39.000Z",
+    "collectedAt": "2026-10-01T23:51:39.712Z"
   },
   "086520": {
     "name": "에코프로",
@@ -140,8 +140,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:05.000Z",
-    "collectedAt": "2026-10-01T23:42:05.334Z"
+    "quotedAt": "2026-10-01T23:51:40.000Z",
+    "collectedAt": "2026-10-01T23:51:40.155Z"
   },
   "에코프로": {
     "name": "에코프로",
@@ -149,8 +149,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:05.000Z",
-    "collectedAt": "2026-10-01T23:42:05.334Z"
+    "quotedAt": "2026-10-01T23:51:40.000Z",
+    "collectedAt": "2026-10-01T23:51:40.155Z"
   },
   "LG에너지솔루션": {
     "name": "LG에너지솔루션",
@@ -158,8 +158,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:02.000Z",
-    "collectedAt": "2026-10-01T23:42:02.416Z"
+    "quotedAt": "2026-10-01T23:51:36.000Z",
+    "collectedAt": "2026-10-01T23:51:37.070Z"
   },
   "알테오젠": {
     "name": "알테오젠",
@@ -167,8 +167,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:00.000Z",
-    "collectedAt": "2026-10-01T23:42:00.870Z"
+    "quotedAt": "2026-10-01T23:51:35.000Z",
+    "collectedAt": "2026-10-01T23:51:35.464Z"
   },
   "088980": {
     "name": "맥쿼리인프라",
@@ -176,8 +176,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:05.000Z",
-    "collectedAt": "2026-10-01T23:42:05.894Z"
+    "quotedAt": "2026-10-01T23:51:40.000Z",
+    "collectedAt": "2026-10-01T23:51:40.771Z"
   },
   "맥쿼리인프라": {
     "name": "맥쿼리인프라",
@@ -185,8 +185,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:05.000Z",
-    "collectedAt": "2026-10-01T23:42:05.894Z"
+    "quotedAt": "2026-10-01T23:51:40.000Z",
+    "collectedAt": "2026-10-01T23:51:40.771Z"
   },
   "005935": {
     "name": "삼성전자우",
@@ -194,8 +194,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:06.000Z",
-    "collectedAt": "2026-10-01T23:42:06.314Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:41.200Z"
   },
   "삼성전자우": {
     "name": "삼성전자우",
@@ -203,8 +203,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:06.000Z",
-    "collectedAt": "2026-10-01T23:42:06.314Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:41.200Z"
   },
   "068270": {
     "name": "셀트리온",
@@ -212,8 +212,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:06.000Z",
-    "collectedAt": "2026-10-01T23:42:06.856Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:41.631Z"
   },
   "셀트리온": {
     "name": "셀트리온",
@@ -221,8 +221,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:06.000Z",
-    "collectedAt": "2026-10-01T23:42:06.856Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:41.631Z"
   },
   "KB금융": {
     "name": "KB금융",
@@ -230,8 +230,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:00.000Z",
-    "collectedAt": "2026-10-01T23:42:00.322Z"
+    "quotedAt": "2026-10-01T23:51:34.000Z",
+    "collectedAt": "2026-10-01T23:51:34.901Z"
   },
   "055550": {
     "name": "신한지주",
@@ -239,8 +239,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:07.000Z",
-    "collectedAt": "2026-10-01T23:42:07.270Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:42.059Z"
   },
   "신한지주": {
     "name": "신한지주",
@@ -248,8 +248,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:07.000Z",
-    "collectedAt": "2026-10-01T23:42:07.270Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:42.059Z"
   },
   "012330": {
     "name": "현대모비스",
@@ -257,8 +257,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:07.000Z",
-    "collectedAt": "2026-10-01T23:42:07.675Z"
+    "quotedAt": "2026-10-01T23:51:42.000Z",
+    "collectedAt": "2026-10-01T23:51:42.492Z"
   },
   "현대모비스": {
     "name": "현대모비스",
@@ -266,8 +266,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:07.000Z",
-    "collectedAt": "2026-10-01T23:42:07.675Z"
+    "quotedAt": "2026-10-01T23:51:42.000Z",
+    "collectedAt": "2026-10-01T23:51:42.492Z"
   },
   "000270": {
     "name": "기아",
@@ -275,8 +275,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:08.000Z",
-    "collectedAt": "2026-10-01T23:42:08.111Z"
+    "quotedAt": "2026-10-01T23:51:42.000Z",
+    "collectedAt": "2026-10-01T23:51:42.925Z"
   },
   "기아": {
     "name": "기아",
@@ -284,8 +284,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:08.000Z",
-    "collectedAt": "2026-10-01T23:42:08.111Z"
+    "quotedAt": "2026-10-01T23:51:42.000Z",
+    "collectedAt": "2026-10-01T23:51:42.925Z"
   },
   "032830": {
     "name": "삼성생명",
@@ -293,8 +293,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:08.000Z",
-    "collectedAt": "2026-10-01T23:42:08.522Z"
+    "quotedAt": "2026-10-01T23:51:43.000Z",
+    "collectedAt": "2026-10-01T23:51:43.343Z"
   },
   "삼성생명": {
     "name": "삼성생명",
@@ -302,8 +302,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:08.000Z",
-    "collectedAt": "2026-10-01T23:42:08.522Z"
+    "quotedAt": "2026-10-01T23:51:43.000Z",
+    "collectedAt": "2026-10-01T23:51:43.343Z"
   },
   "028260": {
     "name": "삼성물산",
@@ -311,8 +311,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:08.000Z",
-    "collectedAt": "2026-10-01T23:42:08.942Z"
+    "quotedAt": "2026-10-01T23:51:43.000Z",
+    "collectedAt": "2026-10-01T23:51:43.764Z"
   },
   "삼성물산": {
     "name": "삼성물산",
@@ -320,8 +320,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:08.000Z",
-    "collectedAt": "2026-10-01T23:42:08.942Z"
+    "quotedAt": "2026-10-01T23:51:43.000Z",
+    "collectedAt": "2026-10-01T23:51:43.764Z"
   },
   "051910": {
     "name": "LG화학",
@@ -329,8 +329,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:09.000Z",
-    "collectedAt": "2026-10-01T23:42:09.354Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:44.182Z"
   },
   "LG화학": {
     "name": "LG화학",
@@ -338,8 +338,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:09.000Z",
-    "collectedAt": "2026-10-01T23:42:09.354Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:44.182Z"
   },
   "006400": {
     "name": "삼성SDI",
@@ -347,8 +347,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:09.000Z",
-    "collectedAt": "2026-10-01T23:42:09.970Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:44.612Z"
   },
   "삼성SDI": {
     "name": "삼성SDI",
@@ -356,8 +356,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:09.000Z",
-    "collectedAt": "2026-10-01T23:42:09.970Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:44.612Z"
   },
   "에코프로비엠": {
     "name": "에코프로비엠",
@@ -365,8 +365,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:01.000Z",
-    "collectedAt": "2026-10-01T23:42:01.278Z"
+    "quotedAt": "2026-10-01T23:51:35.000Z",
+    "collectedAt": "2026-10-01T23:51:36.023Z"
   },
   "TIGER 미국S&P500": {
     "name": "TIGER 미국S&P500",
@@ -374,170 +374,170 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:01.000Z",
-    "collectedAt": "2026-10-01T23:42:01.865Z"
+    "quotedAt": "2026-10-01T23:51:36.000Z",
+    "collectedAt": "2026-10-01T23:51:36.645Z"
   },
   "PLTR": {
     "name": "Palantir Technologies Inc.",
-    "price": 190.24,
+    "price": 190.6,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:50.000Z",
-    "collectedAt": "2026-10-01T23:42:10.179Z"
+    "quotedAt": "2026-10-01T23:51:33.000Z",
+    "collectedAt": "2026-10-01T23:51:44.777Z"
   },
   "AAPL": {
     "name": "Apple Inc.",
-    "price": 330.4,
+    "price": 330.71,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:07.000Z",
-    "collectedAt": "2026-10-01T23:42:10.336Z"
+    "quotedAt": "2026-10-01T23:51:33.000Z",
+    "collectedAt": "2026-10-01T23:51:44.941Z"
   },
   "TSLA": {
     "name": "Tesla, Inc.",
-    "price": 355.29,
+    "price": 355.385,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:06.000Z",
-    "collectedAt": "2026-10-01T23:42:10.499Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:45.105Z"
   },
   "NVDA": {
     "name": "NVIDIA Corporation",
-    "price": 231.378,
+    "price": 231.4677,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:09.000Z",
-    "collectedAt": "2026-10-01T23:42:10.644Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:45.300Z"
   },
   "MSFT": {
     "name": "Microsoft Corporation",
-    "price": 514.12,
+    "price": 514.49,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:00.000Z",
-    "collectedAt": "2026-10-01T23:42:10.823Z"
+    "quotedAt": "2026-10-01T23:50:23.000Z",
+    "collectedAt": "2026-10-01T23:51:45.474Z"
   },
   "GOOGL": {
     "name": "Alphabet Inc.",
-    "price": 339,
+    "price": 339.0972,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:56.000Z",
-    "collectedAt": "2026-10-01T23:42:10.918Z"
+    "quotedAt": "2026-10-01T23:51:42.000Z",
+    "collectedAt": "2026-10-01T23:51:45.622Z"
   },
   "AMZN": {
     "name": "Amazon.com, Inc.",
-    "price": 248.6593,
+    "price": 248.79,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:41.000Z",
-    "collectedAt": "2026-10-01T23:42:11.062Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:45.856Z"
   },
   "META": {
     "name": "Meta Platforms, Inc.",
-    "price": 726,
+    "price": 725.65,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:57.000Z",
-    "collectedAt": "2026-10-01T23:42:11.236Z"
+    "quotedAt": "2026-10-01T23:51:35.000Z",
+    "collectedAt": "2026-10-01T23:51:46.057Z"
   },
   "KO": {
     "name": "Coca-Cola Company (The)",
-    "price": 86.15,
+    "price": 86.25,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:38:45.000Z",
-    "collectedAt": "2026-10-01T23:42:11.381Z"
+    "quotedAt": "2026-10-01T23:43:40.000Z",
+    "collectedAt": "2026-10-01T23:51:46.205Z"
   },
   "Palantir Technologies Inc.": {
     "name": "Palantir Technologies Inc.",
-    "price": 190.24,
+    "price": 190.6,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:50.000Z",
-    "collectedAt": "2026-10-01T23:42:10.179Z"
+    "quotedAt": "2026-10-01T23:51:33.000Z",
+    "collectedAt": "2026-10-01T23:51:44.777Z"
   },
   "Apple Inc.": {
     "name": "Apple Inc.",
-    "price": 330.4,
+    "price": 330.71,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:07.000Z",
-    "collectedAt": "2026-10-01T23:42:10.336Z"
+    "quotedAt": "2026-10-01T23:51:33.000Z",
+    "collectedAt": "2026-10-01T23:51:44.941Z"
   },
   "Tesla, Inc.": {
     "name": "Tesla, Inc.",
-    "price": 355.29,
+    "price": 355.385,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:06.000Z",
-    "collectedAt": "2026-10-01T23:42:10.499Z"
+    "quotedAt": "2026-10-01T23:51:41.000Z",
+    "collectedAt": "2026-10-01T23:51:45.105Z"
   },
   "NVIDIA Corporation": {
     "name": "NVIDIA Corporation",
-    "price": 231.378,
+    "price": 231.4677,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:09.000Z",
-    "collectedAt": "2026-10-01T23:42:10.644Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:45.300Z"
   },
   "Microsoft Corporation": {
     "name": "Microsoft Corporation",
-    "price": 514.12,
+    "price": 514.49,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:42:00.000Z",
-    "collectedAt": "2026-10-01T23:42:10.823Z"
+    "quotedAt": "2026-10-01T23:50:23.000Z",
+    "collectedAt": "2026-10-01T23:51:45.474Z"
   },
   "Alphabet Inc.": {
     "name": "Alphabet Inc.",
-    "price": 339,
+    "price": 339.0972,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:56.000Z",
-    "collectedAt": "2026-10-01T23:42:10.918Z"
+    "quotedAt": "2026-10-01T23:51:42.000Z",
+    "collectedAt": "2026-10-01T23:51:45.622Z"
   },
   "Amazon.com, Inc.": {
     "name": "Amazon.com, Inc.",
-    "price": 248.6593,
+    "price": 248.79,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:41.000Z",
-    "collectedAt": "2026-10-01T23:42:11.062Z"
+    "quotedAt": "2026-10-01T23:51:44.000Z",
+    "collectedAt": "2026-10-01T23:51:45.856Z"
   },
   "Meta Platforms, Inc.": {
     "name": "Meta Platforms, Inc.",
-    "price": 726,
+    "price": 725.65,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:57.000Z",
-    "collectedAt": "2026-10-01T23:42:11.236Z"
+    "quotedAt": "2026-10-01T23:51:35.000Z",
+    "collectedAt": "2026-10-01T23:51:46.057Z"
   },
   "Coca-Cola Company (The)": {
     "name": "Coca-Cola Company (The)",
-    "price": 86.15,
+    "price": 86.25,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:38:45.000Z",
-    "collectedAt": "2026-10-01T23:42:11.381Z"
+    "quotedAt": "2026-10-01T23:43:40.000Z",
+    "collectedAt": "2026-10-01T23:51:46.205Z"
   },
   "009150": {
     "name": "삼성전기",
@@ -545,8 +545,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:11.000Z",
-    "collectedAt": "2026-10-01T23:42:11.804Z"
+    "quotedAt": "2026-10-01T23:51:46.000Z",
+    "collectedAt": "2026-10-01T23:51:46.639Z"
   },
   "089890": {
     "name": "코세스",
@@ -554,8 +554,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:12.000Z",
-    "collectedAt": "2026-10-01T23:42:12.210Z"
+    "quotedAt": "2026-10-01T23:51:46.000Z",
+    "collectedAt": "2026-10-01T23:51:47.063Z"
   },
   "032580": {
     "name": "피델릭스",
@@ -563,8 +563,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:12.000Z",
-    "collectedAt": "2026-10-01T23:42:12.626Z"
+    "quotedAt": "2026-10-01T23:51:47.000Z",
+    "collectedAt": "2026-10-01T23:51:47.754Z"
   },
   "0193W0": {
     "name": "KODEX 삼성전자단일종목레버리지",
@@ -572,8 +572,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:12.000Z",
-    "collectedAt": "2026-10-01T23:42:13.035Z"
+    "quotedAt": "2026-10-01T23:51:48.000Z",
+    "collectedAt": "2026-10-01T23:51:48.175Z"
   },
   "0193T0": {
     "name": "KODEX SK하이닉스단일종목레버리지",
@@ -581,17 +581,17 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:13.000Z",
-    "collectedAt": "2026-10-01T23:42:13.457Z"
+    "quotedAt": "2026-10-01T23:51:48.000Z",
+    "collectedAt": "2026-10-01T23:51:48.589Z"
   },
   "SOXL": {
     "name": "Direxion Daily Semiconductor Bu",
-    "price": 154.2501,
+    "price": 154.58,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:21.000Z",
-    "collectedAt": "2026-10-01T23:42:13.620Z"
+    "quotedAt": "2026-10-01T23:51:39.000Z",
+    "collectedAt": "2026-10-01T23:51:48.732Z"
   },
   "삼성전기": {
     "name": "삼성전기",
@@ -599,8 +599,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:11.000Z",
-    "collectedAt": "2026-10-01T23:42:11.804Z"
+    "quotedAt": "2026-10-01T23:51:46.000Z",
+    "collectedAt": "2026-10-01T23:51:46.639Z"
   },
   "코세스": {
     "name": "코세스",
@@ -608,8 +608,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:12.000Z",
-    "collectedAt": "2026-10-01T23:42:12.210Z"
+    "quotedAt": "2026-10-01T23:51:46.000Z",
+    "collectedAt": "2026-10-01T23:51:47.063Z"
   },
   "피델릭스": {
     "name": "피델릭스",
@@ -617,8 +617,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:12.000Z",
-    "collectedAt": "2026-10-01T23:42:12.626Z"
+    "quotedAt": "2026-10-01T23:51:47.000Z",
+    "collectedAt": "2026-10-01T23:51:47.754Z"
   },
   "KODEX 삼성전자단일종목레버리지": {
     "name": "KODEX 삼성전자단일종목레버리지",
@@ -626,8 +626,8 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:12.000Z",
-    "collectedAt": "2026-10-01T23:42:13.035Z"
+    "quotedAt": "2026-10-01T23:51:48.000Z",
+    "collectedAt": "2026-10-01T23:51:48.175Z"
   },
   "KODEX SK하이닉스단일종목레버리지": {
     "name": "KODEX SK하이닉스단일종목레버리지",
@@ -635,25 +635,25 @@
     "type": "kr_stock",
     "currency": "KRW",
     "source": "Naver",
-    "quotedAt": "2026-10-01T23:42:13.000Z",
-    "collectedAt": "2026-10-01T23:42:13.457Z"
+    "quotedAt": "2026-10-01T23:51:48.000Z",
+    "collectedAt": "2026-10-01T23:51:48.589Z"
   },
   "Direxion Daily Semiconductor Bu": {
     "name": "Direxion Daily Semiconductor Bu",
-    "price": 154.2501,
+    "price": 154.58,
     "type": "us_stock",
     "currency": "USD",
     "source": "Yahoo Finance · 시간외",
-    "quotedAt": "2026-10-01T23:41:21.000Z",
-    "collectedAt": "2026-10-01T23:42:13.620Z"
+    "quotedAt": "2026-10-01T23:51:39.000Z",
+    "collectedAt": "2026-10-01T23:51:48.732Z"
   },
   "USDKRW=X": {
     "name": "USD/KRW",
-    "price": 1359.92,
-    "quotedAt": "2026-10-01T23:42:12.000Z",
+    "price": 1360.02,
+    "quotedAt": "2026-10-01T23:51:47.000Z",
     "source": "Yahoo Finance · 정규장",
     "type": "cash",
     "currency": "KRW",
-    "collectedAt": "2026-10-01T23:42:13.730Z"
+    "collectedAt": "2026-10-01T23:51:48.853Z"
   }
 }
