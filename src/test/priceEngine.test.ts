@@ -13,6 +13,10 @@ it('브라우저 환율 조회가 실패해도 최근 서버 수집 환율로 �
  const us={...asset,type:'us_stock' as const,symbol:'GOOGL',name:'구글'};
  expect((await refreshAssetPrices([us]))[0].currentPrice).toBe(507500);
 });
+it('최근 서버 시장 환율을 일일 환율보다 우선 적용한다',async()=>{
+ mockFetch({GOOGL:{price:350,currency:'USD',type:'us_stock',quotedAt:at,collectedAt:at,source:'Yahoo'},'USDKRW=X':{price:1450,currency:'KRW',type:'cash',quotedAt:at,collectedAt:at,source:'Yahoo FX'}});
+ expect((await refreshAssetPrices([{...asset,type:'us_stock',symbol:'GOOGL',name:'구글'}]))[0].currentPrice).toBe(507500);
+});
 describe('시세 갱신',()=>{
  it('다시 갱신하면 새 시세 파일을 읽는다',async()=>{
   mockFetch(snapshot(130)); expect((await refreshAssetPrices([asset]))[0].currentPrice).toBe(130);
