@@ -42,3 +42,8 @@ it('국내 종목은 버튼 갱신 때 실시간 조회 결과를 수집본보�
  vi.stubGlobal('fetch',vi.fn(async(url:string)=>({ok:true,json:async()=>url.includes('polling.finance.naver.com')?{datas:[{itemCode:'005930',stockName:'삼성전자',closePrice:'155',localTradedAt:at}]}:url.includes('exchangerate')?{rates:{KRW:1400}}:snapshot(130)})));
  expect((await refreshAssetPrices([asset]))[0].currentPrice).toBe(155);
 });
+it('직접 조회 결과가 수집본보다 오래됐으면 더 최신 수집본을 유지한다',async()=>{
+ const old=new Date(Date.parse(at)-60000).toISOString();
+ vi.stubGlobal('fetch',vi.fn(async(url:string)=>({ok:true,json:async()=>url.includes('polling.finance.naver.com')?{datas:[{itemCode:'005930',stockName:'삼성전자',closePrice:'155',localTradedAt:old}]}:url.includes('exchangerate')?{rates:{KRW:1400}}:snapshot(130)})));
+ expect((await refreshAssetPrices([asset]))[0].currentPrice).toBe(130);
+});
