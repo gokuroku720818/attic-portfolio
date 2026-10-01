@@ -53,7 +53,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [activeMember, setActiveMember] = useState<Member | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const [refreshMessage, setRefreshMessage] = useState('주식: 5분 주기 수집본 · 코인: 업비트 조회');
+  const [refreshMessage, setRefreshMessage] = useState('국내: 직접 조회 우선 · 미국: 수집본 · 코인: 업비트');
   const [saveMessage,setSaveMessage]=useState('');
   const pendingSaves=useRef(0);
   const saveQueue=useRef(Promise.resolve());
@@ -138,7 +138,8 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   // 시세 갱신: 저장 성공을 확인한 뒤 공유 데이터 반영
   const refreshPrices = useCallback(async () => {
-    if (refreshingRef.current || pendingSaves.current) return;
+    if(refreshingRef.current)return;
+    if(pendingSaves.current){setRefreshMessage('변경사항 저장 중입니다 · 저장 후 다시 눌러 주세요');return;}
     refreshingRef.current = true;
     setIsRefreshing(true);
     setRefreshMessage('최신 시세 확인 중…');
@@ -146,6 +147,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       const original = dataRef.current.assets;
       const updatedAssets = await refreshAssetPrices(original);
       const eligible = original.filter(a => ['kr_stock','us_stock','crypto'].includes(a.type));
+      const changedCount=updatedAssets.filter((a,i)=>a.currentPrice!==original[i].currentPrice).length;
       const successCount = updatedAssets.filter((a,i) => a !== original[i]).length;
       if (!successCount) {
         setRefreshMessage(eligible.length ? '조회 실패 또는 오래된 수집본: 기존 가격 유지' : '자동 갱신할 주식·코인이 없습니다');
@@ -157,7 +159,7 @@ export const AtticProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         return;
       }
       if(!pendingSaves.current){setData(saved);cacheAtticData(saved);}
-      setRefreshMessage(`${successCount}/${eligible.length}개 시세 확인 · 공유 저장 완료${successCount < eligible.length ? ' · 실패 종목은 기존 가격 유지' : ''}`);
+      setRefreshMessage(`${successCount}/${eligible.length}개 확인 · ${changedCount ? changedCount+'개 가격 변경' : '가격 변동 없음'} · 공유 저장 완료${successCount < eligible.length ? ' · 실패 종목 기존 가격 유지' : ''}`);
     } catch {
       setRefreshMessage('시세 갱신 실패: 기존 가격 유지');
     } finally {

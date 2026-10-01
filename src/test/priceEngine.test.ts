@@ -38,3 +38,7 @@ it('미국 주식을 국내주식으로 등록했어도 실제 시세 통화로 
  const result=(await refreshAssetPrices([{...asset,symbol:'SOXL',name:'SOXL'}]))[0];
  expect(result.currentPrice).toBe(140000);expect(result.type).toBe('us_stock');
 });
+it('국내 종목은 버튼 갱신 때 실시간 조회 결과를 수집본보다 우선한다',async()=>{
+ vi.stubGlobal('fetch',vi.fn(async(url:string)=>({ok:true,json:async()=>url.includes('polling.finance.naver.com')?{datas:[{itemCode:'005930',stockName:'삼성전자',closePrice:'155',localTradedAt:at}]}:url.includes('exchangerate')?{rates:{KRW:1400}}:snapshot(130)})));
+ expect((await refreshAssetPrices([asset]))[0].currentPrice).toBe(155);
+});

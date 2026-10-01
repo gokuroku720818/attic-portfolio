@@ -1,3 +1,4 @@
+import { getAssetLinks } from '../utils/stockLinks';
 import { Asset } from '../types';
 
 interface Quote {
@@ -33,6 +34,21 @@ async function loadDynamicPrices():Promise<QuoteMap> {
   }
   return {};
 }
+async function domesticQuotes(assets:Asset[]):Promise<QuoteMap> {
+  const codes=[...new Set(assets.filter(a=>a.type==='kr_stock').map(a=>getAssetLinks(a).codeOrSymbol).filter(code=>/^[0-9A-Z]{6}$/.test(code)))];
+  const quotes:QuoteMap={};
+  await Promise.all(codes.map(async code=>{
+    try {
+      const data=await json(`https://polling.finance.naver.com/api/realtime/domestic/stock/${code}?t=${Date.now()}`);
+      const item=data.datas?.find((row:any)=>row.itemCode===code);
+      const price=Number(String(item?.closePrice||'').replace(/,/g,''));
+      const time=Date.parse(item?.localTradedAt);
+      if(!validNumber(price)||!Number.isFinite(time)||time>Date.now()+60000)return;
+      quotes[code]={name:item.stockName,price,type:'kr_stock',currency:'KRW',source:'Naver 직접 조회',quotedAt:new Date(time).toISOString(),collectedAt:new Date().toISOString()};
+    } catch { /* 직접 조회 실패 시 검증된 수집본 사용 */ }
+  }));
+  return quotes;
+}
 export async function fetchLiveExchangeRate():Promise<number|null> {
   try {const data=await json('https://api.exchangerate-api.com/v4/latest/USD'); return validNumber(data.rates?.KRW)?data.rates.KRW:null;} catch {return null;}
 }
@@ -67,16 +83,19 @@ export async function lookupLiveStockPrice(query:string,type:'kr_stock'|'us_stoc
   return {price:q.currency==='USD'?Math.round(q.price*rate):q.price,currency:'KRW',name:q.name};
 }
 export async function refreshAssetPrices(assets:Asset[]):Promise<Asset[]> {
-  const [map,crypto,rate]=await Promise.all([
+  const [map,crypto,rate,domestic]=await Promise.all([
     assets.some(a=>a.type==='kr_stock'||a.type==='us_stock')?loadDynamicPrices():Promise.resolve({} as QuoteMap),
     cryptoQuotes(assets.filter(a=>a.type==='crypto').map(a=>a.symbol||a.name)),
     assets.some(a=>a.type==='us_stock'||a.type==='kr_stock')?fetchLiveExchangeRate():Promise.resolve(1),
+    domesticQuotes(assets),
   ]);
   return assets.map(asset=>{
     if(asset.type==='real_estate'||asset.type==='cash')return asset;
     const source=asset.type==='crypto'?crypto:map;
     const otherType=asset.type==='kr_stock'?'us_stock':'kr_stock';
-    const q=matchQuote(source,asset.symbol,asset.type)||matchQuote(source,asset.name,asset.type)||(asset.type!=='crypto'?(matchQuote(source,asset.symbol,otherType)||matchQuote(source,asset.name,otherType)):null);
+    const collected=matchQuote(source,asset.symbol,asset.type)||matchQuote(source,asset.name,asset.type)||(asset.type!=='crypto'?(matchQuote(source,asset.symbol,otherType)||matchQuote(source,asset.name,otherType)):null);
+    const direct=asset.type==='kr_stock'?matchQuote(domestic,getAssetLinks(asset).codeOrSymbol,'kr_stock'):null;
+    const q=direct&&(!collected||Date.parse(direct.quotedAt)>=Date.parse(collected.quotedAt))?direct:collected;
     if(!q || (q.currency==='USD' && rate===null))return asset;
     return {...asset,type:q.type,currentPrice:q.currency==='USD'?Math.round(q.price*rate!):q.price,updatedAt:q.quotedAt,priceSource:q.source,priceFetchedAt:q.collectedAt};
   });
